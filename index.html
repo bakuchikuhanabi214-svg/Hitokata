@@ -51,6 +51,20 @@ canvas{display:block}
 .set input{width:150px;accent-color:#c8361a}
 #over,#win,#pause{display:none}
 #over h2{color:#c8361a}
+.rcard{display:none;width:auto;max-width:min(92vw,520px);max-height:42vh;border-radius:8px;margin-top:12px;box-shadow:0 0 30px #000;border:1px solid rgba(255,255,255,.15)}
+.newT{color:#ffd27a;margin-top:8px;font-size:15px;min-height:1px}
+.shareRow .btn{margin-top:10px}
+.xBtn{background:#111!important;border-color:#666!important}
+#titles,#rank,#tut{display:none;background:#060303!important;z-index:5}
+.tlist{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:8px;max-width:760px;width:100%;margin-top:12px}
+.tcard{text-align:left;padding:10px 12px;border-radius:8px;border:1px solid rgba(255,255,255,.15);background:rgba(10,10,14,.75);color:#888;font-family:inherit;position:relative}
+.tcard b{display:block;font-size:15px;margin-bottom:3px}.tcard span{font-size:12px;opacity:.8}.tcard.has{color:#eee;border-color:rgba(255,210,122,.5);cursor:pointer}.tcard.has b{color:#ffd27a}
+.tcard.eq{background:rgba(138,15,29,.55);border-color:#c8361a}.tcard i{position:absolute;right:8px;top:8px;font-size:11px;font-style:normal;color:#ffd27a}
+.chips{display:flex;gap:6px;flex-wrap:wrap;justify-content:center;margin-top:8px;max-width:760px}.chip{padding:6px 12px;border-radius:16px;border:1px solid rgba(255,255,255,.25);background:rgba(255,255,255,.05);color:#ddd;font-family:inherit;font-size:13px;cursor:pointer}.chip.on{background:#8a0f1d;border-color:#c8361a;color:#fff}
+.rk{list-style:none;padding:0;margin:12px 0 0;width:min(92vw,480px);text-align:left}.rk li{display:flex;align-items:center;gap:10px;padding:7px 10px;border-bottom:1px solid rgba(255,255,255,.08)}.rk li.me{background:rgba(138,15,29,.4)}
+.rk .no{width:28px;text-align:right;color:#ffd27a;font-weight:bold}.rk .nm{flex:1}.rk .nm small{display:block;font-size:11px;color:#ffd27a;opacity:.8}.rk .tm{font-variant-numeric:tabular-nums;font-weight:bold}.rkNote{opacity:.7;margin-top:14px}
+#blk{position:fixed;inset:0;pointer-events:none;opacity:0;background:#000}
+#tutText{max-width:560px;line-height:1.75;font-size:14.5px;text-align:left}
 #win h2{color:#7dffa8}
 .best{margin-top:8px;font-size:14px;opacity:.7}
 #touch{display:none}
@@ -83,7 +97,7 @@ body.touch #ammo{bottom:auto;top:62px;right:62px}
 <div id="danger"></div>
 <div id="locker"></div>
 <div id="bite"></div>
-<div id="flash"></div>
+<div id="flash"></div><div id="blk"></div>
 <div id="cross"></div>
 <div id="hud"><div class="k" id="keys">🎎 0 / 5</div><div class="t" id="time">0:00</div></div>
 <button id="pauseBtn">❚❚</button>
@@ -118,10 +132,12 @@ body.touch #ammo{bottom:auto;top:62px;right:62px}
   <div class="settings">
     <div class="set">視点感度 <input type="range" class="sens" min="0.2" max="3" step="0.1"><b class="sensV">1.0</b></div>
     <div class="set">音量 <input type="range" class="vol" min="0" max="1" step="0.05"><b class="volV">80</b></div>
-    <div class="set">画質 <select class="qual" style="background:#222;color:#eee;border:1px solid #555;border-radius:4px;padding:3px 6px;font-family:inherit"><option value="ps2">PS2風</option><option value="high">高画質（雨・光・影）</option><option value="low">軽量</option></select></div>
-    <label class="set chk"><div><input type="checkbox" id="testChk">🧪 テストモード</div><span>無敵・AK-47・ジャンプ（ベストタイムは記録されません）</span></label>
+    <div class="set">画質 <select class="qual" style="background:#222;color:#eee;border:1px solid #555;border-radius:4px;padding:3px 6px;font-family:inherit"><option value="ps2">PS2風</option><option value="high">高画質（雨・光・影）</option><option value="low">軽量（古いスマホ向け）</option></select></div>
+    <div class="set">難易度 <select class="diffSel" style="background:#222;color:#eee;border:1px solid #555;border-radius:4px;padding:3px 6px;font-family:inherit"><option value="easy">やさしい</option><option value="normal">ふつう</option><option value="nightmare">悪夢</option></select></div>
+    <div class="set">名前 <input id="pname" maxlength="12" placeholder="名無し" style="width:120px;background:#222;color:#eee;border:1px solid #555;border-radius:4px;padding:4px 6px;font-family:inherit"></div>
   </div>
-  <div class="ctrl" id="ctrlText">WASD：移動　マウス：視点　Shift：走る（足音で気づかれる）　E：ロッカーに隠れる / 出る　F：ライト　Esc：一時停止<br>還り人が持つ懐中電灯の光はヤツらの視線。👁 のメーターが満タンになると見つかる。<br>物置に隠れられるが、長居すると気配でバレる。　Q（長押し）：視界ジャック（近くの敵の目線を見る。その間は動けない）<br>📻 ラジオのノイズが大きいほど、何かが近い。　H：人形の気配（1回のプレイで3回まで）　M：地図<br>人形はろうそくの灯りのそばに座っている。近づくと鈴の音が聞こえる。</div>
+  <div class="ctrl" id="ctrlText">WASD：移動　マウス：視点　Shift：走る（足音で気づかれる）　E：ロッカーに隠れる / 出る　F：ライト　Esc：一時停止<br>還り人が持つ懐中電灯の光はヤツらの視線。👁 のメーターが満タンになると見つかる。<br>物置に隠れられるが、長居すると気配でバレる。　Q（長押し）：視界ジャック（近くの敵の目線を見る。その間は動けない）<br>📻 ラジオのノイズが大きいほど、何かが近い。　H：人形の気配（1回のプレイで3回まで）　M：地図<br>鎌の還り人は耳がいい／鉈の還り人は視界が広い／還り子は泣き声が聞こえ、見つかると仲間を呼ぶ<br>人形はろうそくの灯りのそばに座っている。近づくと鈴の音が聞こえる。</div>
+  <div class="row"><button class="btn sub2" id="titlesBtn">🏅 称号</button><button class="btn sub2" id="rankBtn">🏆 ランキング</button><button class="btn sub2" id="howBtn">❔ 遊び方</button></div>
   <button class="btn" id="startBtn">はじめる</button>
 </div>
 <div class="screen" id="pause"><h2>一時停止</h2><p>鈴の音は、止まらない。</p>
@@ -130,8 +146,11 @@ body.touch #ammo{bottom:auto;top:62px;right:62px}
     <div class="set">音量 <input type="range" class="vol" min="0" max="1" step="0.05"><b class="volV">80</b></div>
   </div>
   <div class="row"><button class="btn" id="resumeBtn">再開</button><button class="btn sub2 homeBtn">ホームへ</button></div></div>
-<div class="screen" id="over"><h2 id="overTitle">還り人にされた</h2><p id="overText"></p><div class="row"><button class="btn" id="retryBtn">もう一度</button><button class="btn sub2 homeBtn">ホームへ</button></div></div>
-<div class="screen" id="win"><h2>脱出成功</h2><p id="winText"></p><div class="best" id="bestWin"></div><div class="row"><button class="btn" id="againBtn">もう一度</button><button class="btn sub2 homeBtn">ホームへ</button></div></div>
+<div class="screen" id="over"><h2 id="overTitle">還り人にされた</h2><p id="overText"></p><div class="newT" id="overNewT"></div><img class="rcard" id="overCard" alt="結果"><div class="row shareRow"><button class="btn sub2 xBtn">𝕏 でシェア</button><button class="btn sub2 imgBtn">画像を保存・共有</button></div><div class="row"><button class="btn" id="retryBtn">もう一度</button><button class="btn sub2 homeBtn">ホームへ</button></div></div>
+<div class="screen" id="titles"><h2>称号</h2><p style="opacity:.75;font-size:13px">獲得した称号を押すと装備できます（ランキングに表示）。 <b id="titleCount"></b></p><div class="tlist" id="titleList"></div><div class="row"><button class="btn sub2 backBtn">もどる</button></div></div>
+<div class="screen" id="rank"><h2>ランキング</h2><p style="opacity:.75;font-size:13px">脱出タイムの速い順</p><div class="chips" id="rkMaps"></div><div class="chips" id="rkDiffs"></div><div id="rkList"></div><div class="row"><button class="btn sub2 backBtn">もどる</button></div></div>
+<div class="screen" id="tut"><h2>遊び方</h2><div id="tutText"></div><button class="btn" id="tutOk">わかった</button></div>
+<div class="screen" id="win"><h2>脱出成功</h2><p id="winText"></p><div class="best" id="bestWin"></div><div class="newT" id="winRank"></div><div class="newT" id="winNewT"></div><img class="rcard" id="winCard" alt="結果"><div class="row shareRow"><button class="btn sub2 xBtn">𝕏 でシェア</button><button class="btn sub2 imgBtn">画像を保存・共有</button></div><div class="row"><button class="btn" id="againBtn">もう一度</button><button class="btn sub2 homeBtn">ホームへ</button></div></div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/shaders/CopyShader.js"></script>
@@ -151,13 +170,17 @@ if(isTouch)document.body.classList.add('touch');
 if(isTouch){$('ctrlText').innerHTML='左下スティック：移動　画面右側ドラッグ：視点　右上 ❚❚：一時停止<br>走る／隠れる／ライト はボタンで操作。走ると足音で気づかれる。<br>還り人の懐中電灯の光が視線。👁 が満タンになると見つかる。<br>視界ボタン長押しで還り人の目線を覗ける。「気配」で人形の方向がわかる（3回まで）。「地図」で現在地を確認。<br>人形を5体集めて大鳥居から脱出しろ。';}
 
 // ---------- settings ----------
-const settings={sens:1,vol:0.8,map:'gion',test:false,q:'ps2'};
-try{Object.assign(settings,JSON.parse(localStorage.getItem('hitokata_settings')||'{}'));}catch(e){}
+const settings={sens:1,vol:0.8,map:'gion',test:false,q:'ps2',diff:'normal',name:'',title:''};
+let _firstRun=true;try{const sv=localStorage.getItem('hitokata_settings');if(sv)_firstRun=false;Object.assign(settings,JSON.parse(sv||'{}'));}catch(e){}
+if(_firstRun&&('ontouchstart' in window)&&((navigator.deviceMemory&&navigator.deviceMemory<=3)||(navigator.hardwareConcurrency&&navigator.hardwareConcurrency<=4)))settings.q='low';
+settings.test=false;
 function saveSettings(){try{localStorage.setItem('hitokata_settings',JSON.stringify(settings));}catch(e){}}
-function syncSettingsUI(){document.querySelectorAll('.qual').forEach(q=>q.value=settings.q);$('testChk').checked=!!settings.test;document.querySelectorAll('.sens').forEach(i=>i.value=settings.sens);document.querySelectorAll('.sensV').forEach(b=>b.textContent=(+settings.sens).toFixed(1));
+function syncSettingsUI(){document.querySelectorAll('.diffSel').forEach(q=>q.value=settings.diff||'normal');if($('pname'))$('pname').value=settings.name||'';document.querySelectorAll('.qual').forEach(q=>q.value=settings.q);document.querySelectorAll('.sens').forEach(i=>i.value=settings.sens);document.querySelectorAll('.sensV').forEach(b=>b.textContent=(+settings.sens).toFixed(1));
   document.querySelectorAll('.vol').forEach(i=>i.value=settings.vol);document.querySelectorAll('.volV').forEach(b=>b.textContent=Math.round(settings.vol*100));}
 document.querySelectorAll('.qual').forEach(q=>q.addEventListener('change',()=>{settings.q=q.value;saveSettings();applyQuality();}));
-$('testChk').addEventListener('change',()=>{settings.test=$('testChk').checked;saveSettings();});
+document.querySelectorAll('.diffSel').forEach(q=>q.addEventListener('change',()=>{settings.diff=q.value;saveSettings();renderMaps();}));
+$('pname').addEventListener('change',()=>{settings.name=$('pname').value.trim().slice(0,12);saveSettings();});
+
 document.querySelectorAll('.sens').forEach(i=>i.addEventListener('input',()=>{settings.sens=+i.value;syncSettingsUI();saveSettings();}));
 document.querySelectorAll('.vol').forEach(i=>i.addEventListener('input',()=>{settings.vol=+i.value;syncSettingsUI();saveSettings();if(master)master.gain.value=settings.vol;}));
 
@@ -1018,9 +1041,9 @@ function startYaw(){const pref=[[0,1],[1,0],[-1,0],[0,-1]];for(const [dx,dz] of 
 function addLight(L,mat,onHex,offHex,base){flickers.push({L,mat,onHex,offHex,base,t:Math.random()*10});}
 // ---------- yokai (v2: painted faces, lathe kimono, hair strands) ----------
 const TYPES=[
-  {name:'還り人',ai:'stealth',body:'obj',model:'male',skin:'#7e8a82',gaze:0xfff0c8,deathT:'還り人にされた',scale:1.04,limp:true,weapon:'kama',real:true,height:2.12,tint:0xffffff},
-  {name:'還り人',ai:'stealth',body:'obj',model:'female',skin:'#86908a',gaze:0xffe8c0,deathT:'還り人にされた',scale:0.995,tilt:true,weapon:'nata',longHair:true,real:true,glb:'b',height:2.0,tint:0xffffff},
-  {name:'還り子',ai:'stealth',body:'obj',model:'female',skin:'#8a948e',gaze:0xff6a40,lantern:true,deathT:'還り子に連れていかれた',scale:0.66,weapon:'doll',tilt:true,real:true,glb:'b',height:1.5,tint:0xd0d8d0},
+  {name:'鎌の還り人',ai:'stealth',body:'obj',model:'male',skin:'#7e8a82',gaze:0xfff0c8,deathT:'還り人にされた',scale:1.04,limp:true,weapon:'kama',real:true,hear:1.8,height:2.12,tint:0xffffff},
+  {name:'鉈の還り人',ai:'stealth',body:'obj',model:'female',skin:'#86908a',gaze:0xffe8c0,deathT:'還り人にされた',scale:0.995,tilt:true,weapon:'nata',fov:1.15,sight:1.15,spd:0.82,longHair:true,real:true,glb:'b',height:2.0,tint:0xffffff},
+  {name:'還り子',ai:'stealth',body:'obj',model:'female',skin:'#8a948e',gaze:0xff6a40,lantern:true,deathT:'還り子に連れていかれた',scale:0.66,weapon:'doll',tilt:true,real:true,cry:true,caller:true,spd:0.95,glb:'b',height:1.5,tint:0xd0d8d0},
 ];
 const hairTexture=canvasTex(128,256,(g,w,h)=>{g.clearRect(0,0,w,h);for(let i=0;i<260;i++){const x=Math.random()*w;const a=.35+Math.random()*.6;g.strokeStyle=`rgba(${6+rnd(10)},${5+rnd(8)},${6+rnd(8)},${a})`;g.lineWidth=0.6+Math.random()*1.6;g.beginPath();g.moveTo(x,0);
   let xx=x;for(let y=0;y<h;y+=16){xx+=(Math.random()-.5)*3;g.lineTo(xx,y);}g.stroke();}
@@ -1316,10 +1339,40 @@ function initAudio(){
     const am=AC.createGain();am.gain.value=0.6;const lfo=AC.createOscillator();lfo.type='square';lfo.frequency.value=9;const lg=AC.createGain();lg.gain.value=0.4;lfo.connect(lg);lg.connect(am.gain);lfo.start();
     rs.connect(radioF);radioF.connect(am);am.connect(radioGain);radioGain.connect(master);rs.start();}
   {const rn=AC.createBufferSource();rn.buffer=noiseBuf;rn.loop=true;const hp=AC.createBiquadFilter();hp.type='highpass';hp.frequency.value=900;const lp=AC.createBiquadFilter();lp.type='lowpass';lp.frequency.value=7000;rainGain=AC.createGain();rainGain.gain.value=0;rn.connect(hp);hp.connect(lp);lp.connect(rainGain);rainGain.connect(master);rn.start();}
-  initMusic();
+  initMusic();initTitleMusic();
 }
 let musicBus,padGain,tremGain,tensGain,chaseGain,distWS,padFilter,seqNext=0,seqStep=0,tensLvl=0,chaseLvl=0;
 function makeDist(k){const ws=AC.createWaveShaper();const c=new Float32Array(512);for(let i=0;i<512;i++){const x=i/256-1;c[i]=Math.tanh(x*k);}ws.curve=c;return ws;}
+let titleBus=null,tNext=0,tBell=0,tFlute=0,tEcho=null;
+function initTitleMusic(){
+  titleBus=AC.createGain();titleBus.gain.value=0;const lp=AC.createBiquadFilter();lp.type='lowpass';lp.frequency.value=3800;titleBus.connect(lp);lp.connect(master);
+  // ghostly echo for the koto
+  tEcho=AC.createGain();tEcho.gain.value=1;const dl=AC.createDelay(2);dl.delayTime.value=0.62;const fb=AC.createGain();fb.gain.value=0.46;const df=AC.createBiquadFilter();df.type='lowpass';df.frequency.value=1600;
+  tEcho.connect(titleBus);tEcho.connect(dl);dl.connect(df);df.connect(fb);fb.connect(dl);df.connect(titleBus);
+  // sho-like cluster pad, slowly breathing
+  const pf=AC.createBiquadFilter();pf.type='lowpass';pf.frequency.value=900;const pg=AC.createGain();pg.gain.value=0.05;pf.connect(pg);pg.connect(titleBus);
+  [57,64,65,71,76].forEach((n,i)=>{const o=AC.createOscillator();o.type=i%2?'triangle':'sine';o.frequency.value=mf(n);o.detune.value=(i-2)*4;const g=AC.createGain();g.gain.value=0.22;o.connect(g);g.connect(pf);o.start();
+    const l=AC.createOscillator();l.frequency.value=0.05+i*0.017;const lg=AC.createGain();lg.gain.value=0.18;l.connect(lg);lg.connect(g.gain);l.start();});
+  [40,40.06].forEach(n=>{const o=AC.createOscillator();o.frequency.value=mf(n);const g=AC.createGain();g.gain.value=0.09;o.connect(g);g.connect(titleBus);o.start();});
+}
+function tKoto(f,t,vol,bend){const o=AC.createOscillator(),g=AC.createGain();o.type='triangle';o.frequency.setValueAtTime(f,t);if(bend){o.frequency.setValueAtTime(f,t+0.35);o.frequency.linearRampToValueAtTime(f*Math.pow(2,bend/12),t+0.6);}
+  g.gain.setValueAtTime(0.0001,t);g.gain.exponentialRampToValueAtTime(vol,t+0.008);g.gain.exponentialRampToValueAtTime(0.0001,t+2.6);o.connect(g);g.connect(tEcho);o.start(t);o.stop(t+2.7);
+  envOsc('sawtooth',f*2.004,t,0.18,vol*0.18,tEcho);noiseHit(t,0.02,vol*0.5,'highpass',3000,tEcho);}
+function tFluteNote(f,t){const d=3.2;const o=AC.createOscillator();o.type='sine';o.frequency.setValueAtTime(f*0.97,t);o.frequency.linearRampToValueAtTime(f,t+0.5);o.frequency.setValueAtTime(f,t+d*0.7);o.frequency.linearRampToValueAtTime(f*0.94,t+d);
+  const v=AC.createOscillator();v.frequency.value=5.2;const vg=AC.createGain();vg.gain.setValueAtTime(0,t);vg.gain.linearRampToValueAtTime(f*0.012,t+d*0.8);v.connect(vg);vg.connect(o.frequency);
+  const g=AC.createGain();g.gain.setValueAtTime(0.0001,t);g.gain.exponentialRampToValueAtTime(0.07,t+0.6);g.gain.setValueAtTime(0.07,t+d*0.6);g.gain.exponentialRampToValueAtTime(0.0001,t+d);o.connect(g);g.connect(tEcho);
+  o.start(t);o.stop(t+d+0.1);v.start(t);v.stop(t+d+0.1);
+  const n=AC.createBufferSource();n.buffer=noiseBuf;const bp=AC.createBiquadFilter();bp.type='bandpass';bp.frequency.value=f*2;bp.Q.value=6;const ng=AC.createGain();ng.gain.setValueAtTime(0.0001,t);ng.gain.exponentialRampToValueAtTime(0.06,t+0.15);ng.gain.exponentialRampToValueAtTime(0.0001,t+d);n.connect(bp);bp.connect(ng);ng.connect(tEcho);n.start(t);n.stop(t+d+0.1);}
+const T_SCALE=[52,53,57,59,60,64,65,69,71,72];
+function titleTick(now){if(!titleBus)return;const on=state==='title';titleBus.gain.setTargetAtTime(on?0.85:0,now,on?1.2:0.25);if(!on)return;
+  if(tNext<now)tNext=now+0.3;
+  while(tNext<now+0.3){const t=tNext;
+    if(Math.random()<0.25){const a=T_SCALE[2+rnd(6)];tKoto(mf(a),t,0.2,0);tKoto(mf(a+(Math.random()<.5?1:5)),t+0.16,0.14,0);}
+    else{const n=T_SCALE[rnd(T_SCALE.length)];tKoto(mf(n),t,0.22,Math.random()<0.2?(n%12===4||n%12===11?1:2):0);}
+    if(Math.random()<0.18)tKoto(mf(40),t,0.18,0);
+    tNext+=1.4+Math.random()*2.2;}
+  if(now>tBell){tBell=now+11+Math.random()*8;[620,1712,3350].forEach((f,i)=>envOsc('sine',f,now+0.05,5.5-i*1.5,[0.07,0.03,0.015][i],titleBus));}
+  if(now>tFlute){tFlute=now+9+Math.random()*9;tFluteNote(mf([69,71,72,76][rnd(4)]),now+0.1);}}
 function initMusic(){
   const comp=AC.createDynamicsCompressor();comp.threshold.value=-18;comp.ratio.value=4;comp.connect(master);
   musicBus=AC.createGain();musicBus.gain.value=0;musicBus.connect(comp);
@@ -1362,6 +1415,8 @@ function musicTick(){
 }
 function updateMusic(dt,nd,maxMeter,hunting){
   if(!musicBus)return;const now=AC.currentTime;
+  if(state!=='play'&&radioGain)radioGain.gain.setTargetAtTime(0,now,0.05);
+  titleTick(now);
   const active=state==='play'||(state==='caught'&&caughtT<1.33);
   if(state==='play'){tensLvl=lerp(tensLvl,Math.max(clamp(1-nd/24,0,1),maxMeter),Math.min(1,dt*1.5));
     if(hunting||suspectComing())chaseLvl=Math.min(1,chaseLvl+dt*3);else chaseLvl=Math.max(0,chaseLvl-dt*0.4);}
@@ -1408,6 +1463,7 @@ function sfxSiren(){if(!AC)return;const t=AC.currentTime;const out=AC.createGain
   [[1,'sawtooth',0.5],[1.005,'square',0.25],[0.5,'sine',0.4]].forEach(([mul,type,v])=>{const o=AC.createOscillator(),g=AC.createGain();o.type=type;o.frequency.setValueAtTime(180*mul,t);
     o.frequency.linearRampToValueAtTime(520*mul,t+3.5);o.frequency.linearRampToValueAtTime(560*mul,t+6);o.frequency.linearRampToValueAtTime(200*mul,t+11);
     g.gain.setValueAtTime(0.0001,t);g.gain.exponentialRampToValueAtTime(v,t+2);g.gain.setValueAtTime(v,t+8);g.gain.exponentialRampToValueAtTime(0.0001,t+12);o.connect(g);g.connect(lp);o.start(t);o.stop(t+12.2);});}
+function radioOff(){if(radioGain&&AC){radioGain.gain.cancelScheduledValues(AC.currentTime);radioGain.gain.setTargetAtTime(0,AC.currentTime,0.05);}}
 function radioTick(threat){if(!radioGain)return;const now=AC.currentTime;const v=state==='play'?Math.pow(clamp(threat,0,1),1.4)*0.3+(jack.on?0.18:0):0;radioGain.gain.setTargetAtTime(v,now,0.15);radioF.frequency.setTargetAtTime(1600+Math.random()*1800,now,0.05);
   if(v>0.05&&Math.random()<v*0.4)noiseHit(now,0.02,v*1.5,'highpass',3000);}
 function sfxBonsho(vol){if(!AC)return;const t=AC.currentTime;[[98,1],[197,0.6],[262,0.35],[329,0.3],[530,0.12]].forEach(([f,a])=>envOsc('sine',f,t,7,vol*a));noiseHit(t,0.1,vol*0.4,'lowpass',300);}
@@ -1500,15 +1556,171 @@ const jack={on:false,target:null,idx:0};
 const input={f:0,b:0,l:0,r:0,run:false,jx:0,jy:0,jump:false,fire:false};
 function showMsg(t,dur=3){const m=$('msg');m.innerHTML=t;m.style.opacity=1;msgTimer=dur;}
 const suspectComing=()=>mascots.some(m=>m.lockerTarget&&m.suspect);
-const bestKey=id=>'hitokata_best_'+id;
+const bestKey=id=>'hitokata_best_'+id+(settings.diff&&settings.diff!=='normal'?'_'+settings.diff:'');
 function getBest(id){try{const b=parseFloat(localStorage.getItem(bestKey(id)));return b>0?b:null;}catch(e){return null;}}
+
+// =====================================================================
+//  ランキング用 Firebase 設定（ひとかた用）
+//  Firebase で Realtime Database を作ったら、null を設定の { ... } に置き換える
+// =====================================================================
+const FIREBASE_CONFIG = null;
+const GAME_URL='https://hitokata.emojiclash.com/';
+
+// ---------- difficulty ----------
+const DIFF={easy:{name:'やさしい',siren:90,max:2,spd:0.85,det:0.75,start:1},normal:{name:'ふつう',siren:60,max:3,spd:1,det:1,start:1},nightmare:{name:'悪夢',siren:40,max:3,spd:1.15,det:1.35,start:2}};
+const dif=()=>DIFF[settings.diff]||DIFF.normal;
+
+// ---------- titles ----------
+const TITLES=[
+  {id:'first',n:'初めての脱出',d:'どこかのマップで脱出する'},
+  {id:'nohide',n:'隠れぬ者',d:'一度も物置に隠れずに脱出'},
+  {id:'nohint',n:'気配いらず',d:'「気配」を使わずに脱出'},
+  {id:'unseen',n:'影法師',d:'一度も見つからずに脱出'},
+  {id:'fast',n:'疾風',d:'3分以内に脱出'},
+  {id:'dark',n:'闇に慣れた目',d:'ほとんどライトを消したまま脱出'},
+  {id:'three',n:'三人の還り人',d:'還り人が3体そろった状態で脱出'},
+  {id:'nightmare',n:'悪夢を越えて',d:'難易度「悪夢」で脱出'},
+  {id:'all',n:'京都踏破',d:'6つのマップすべてで脱出'},
+  {id:'child',n:'連れていかれた子',d:'還り子に捕まる'},
+  {id:'ten',n:'還り人の友',d:'通算10回捕まる'},
+];
+function loadJ(k,d){try{return JSON.parse(localStorage.getItem(k))||d;}catch(e){return d;}}
+function saveJ(k,v){try{localStorage.setItem(k,JSON.stringify(v));}catch(e){}}
+let owned=loadJ('hitokata_titles',[]),stats=loadJ('hitokata_stats',{caught:0,cleared:{}});
+function grant(ids){const nw=[];for(const id of ids){if(!owned.includes(id)){owned.push(id);nw.push(id);}}if(nw.length){saveJ('hitokata_titles',owned);if(!settings.title){settings.title=nw[0];saveSettings();}}return nw;}
+const tName=id=>(TITLES.find(t=>t.id===id)||{}).n||'';
+function renderTitles(){const box=$('titleList');box.innerHTML='';
+  for(const t of TITLES){const has=owned.includes(t.id);const b=document.createElement('button');b.className='tcard'+(has?' has':'')+(settings.title===t.id?' eq':'');
+    b.innerHTML=`<b>${has?t.n:'？？？'}</b><span>${t.d}</span>${settings.title===t.id?'<i>装備中</i>':''}`;
+    if(has)b.onclick=()=>{settings.title=t.id;saveSettings();renderTitles();};box.appendChild(b);}
+  $('titleCount').textContent=`${owned.length} / ${TITLES.length}`;}
+
+// ---------- online ranking (Firebase Realtime Database, optional) ----------
+let fbState=FIREBASE_CONFIG?'loading':'off',db=null,uid=null;
+function loadScript(src){return new Promise((ok,ng)=>{const s=document.createElement('script');s.src=src;s.onload=ok;s.onerror=ng;document.head.appendChild(s);});}
+async function initFirebase(){if(!FIREBASE_CONFIG)return;
+  try{const base='https://www.gstatic.com/firebasejs/10.12.2/';await loadScript(base+'firebase-app-compat.js');await loadScript(base+'firebase-auth-compat.js');await loadScript(base+'firebase-database-compat.js');
+    const app=firebase.initializeApp(FIREBASE_CONFIG);db=app.database();app.auth().onAuthStateChanged(u=>{if(u){uid=u.uid;fbState='ready';}});await app.auth().signInAnonymously();}
+  catch(e){console.warn('firebase',e);fbState='error';}}
+async function waitFb(){for(let i=0;i<25&&fbState==='loading';i++)await new Promise(r=>setTimeout(r,200));return fbState==='ready';}
+const pName=()=>(settings.name||'').trim().slice(0,12)||'名無し';
+async function submitTime(map,diff,sec){if(!(await waitFb()))return null;
+  try{const ref=db.ref(`hitokata/${map}_${diff}/${uid}`);const cur=(await ref.once('value')).val();
+    if(!cur||sec<cur.score){await ref.set({name:pName(),title:tName(settings.title),score:Math.round(sec*10)/10,t:firebase.database.ServerValue.TIMESTAMP});}
+    const snap=await db.ref(`hitokata/${map}_${diff}`).orderByChild('score').once('value');let rank=0,n=0;snap.forEach(c=>{n++;if(c.key===uid)rank=n;});return {rank,n};}
+  catch(e){console.warn('submit',e);return null;}}
+async function fetchRank(map,diff){if(!(await waitFb()))return null;
+  try{const snap=await db.ref(`hitokata/${map}_${diff}`).orderByChild('score').limitToFirst(50).once('value');const l=[];snap.forEach(c=>{const v=c.val();if(v&&typeof v.score==='number')l.push({me:c.key===uid,name:String(v.name||'名無し'),title:String(v.title||''),score:v.score});});return l.sort((a,b)=>a.score-b.score);}
+  catch(e){console.warn('rank',e);return null;}}
+let rkMap=null,rkDiff=null;
+function esc(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+async function renderRank(){rkMap=rkMap||settings.map;rkDiff=rkDiff||settings.diff||'normal';
+  $('rkMaps').innerHTML=Object.keys(MAPS).map(id=>`<button class="chip${id===rkMap?' on':''}" data-m="${id}">${MAPS[id].name}</button>`).join('');
+  $('rkDiffs').innerHTML=Object.keys(DIFF).map(id=>`<button class="chip${id===rkDiff?' on':''}" data-d="${id}">${DIFF[id].name}</button>`).join('');
+  $('rkMaps').querySelectorAll('button').forEach(b=>b.onclick=()=>{rkMap=b.dataset.m;renderRank();});
+  $('rkDiffs').querySelectorAll('button').forEach(b=>b.onclick=()=>{rkDiff=b.dataset.d;renderRank();});
+  const box=$('rkList');const mine=getBestFor(rkMap,rkDiff);
+  if(fbState==='off'){box.innerHTML=`<p class="rkNote">オンラインランキングは準備中です。</p><p>あなたのベスト：<b>${mine?fmt(mine):'未クリア'}</b></p>`;return;}
+  box.innerHTML='<p class="rkNote">読み込み中…</p>';const l=await fetchRank(rkMap,rkDiff);
+  if(!l){box.innerHTML=`<p class="rkNote">ランキングを読み込めませんでした。</p><p>あなたのベスト：<b>${mine?fmt(mine):'未クリア'}</b></p>`;return;}
+  if(!l.length){box.innerHTML='<p class="rkNote">まだ誰も脱出していない。最初の一人になれ。</p>';return;}
+  box.innerHTML='<ol class="rk">'+l.map((r,i)=>`<li class="${r.me?'me':''}"><span class="no">${i+1}</span><span class="nm">${esc(r.name)}${r.title?`<small>${esc(r.title)}</small>`:''}</span><span class="tm">${fmtT(r.score)}</span></li>`).join('')+'</ol>';}
+function fmtT(t){return `${Math.floor(t/60)}:${String(Math.floor(t%60)).padStart(2,'0')}.${Math.floor((t*10)%10)}`;}
+function getBestFor(id,diff){try{const b=parseFloat(localStorage.getItem('hitokata_best_'+id+(diff&&diff!=='normal'?'_'+diff:'')));return b>0?b:null;}catch(e){return null;}}
+
+// ---------- result card & share ----------
+let shotWanted=false,lastShot=null,result=null,cardBlob=null;
+function wrapText(g,text,x,y,maxW,lh){let line='',yy=y;for(const ch of text){if(g.measureText(line+ch).width>maxW&&line){g.fillText(line,x,yy);line=ch;yy+=lh;}else line+=ch;}if(line)g.fillText(line,x,yy);}
+async function buildCard(){
+  for(let i=0;i<10&&!lastShot;i++)await new Promise(r=>setTimeout(r,100));
+  const W2=1200,H2=675,cv=document.createElement('canvas');cv.width=W2;cv.height=H2;const g=cv.getContext('2d');
+  g.fillStyle='#0a0303';g.fillRect(0,0,W2,H2);
+  if(lastShot){const im=new Image();await new Promise(r=>{im.onload=r;im.onerror=r;im.src=lastShot;});if(im.width){const s=Math.max(W2/im.width,H2/im.height);g.drawImage(im,(W2-im.width*s)/2,(H2-im.height*s)/2,im.width*s,im.height*s);}}
+  g.fillStyle='rgba(30,0,0,.45)';g.fillRect(0,0,W2,H2);
+  const vg=g.createRadialGradient(W2/2,H2/2,H2*0.25,W2/2,H2/2,H2*0.95);vg.addColorStop(0,'rgba(0,0,0,0)');vg.addColorStop(1,'rgba(0,0,0,.9)');g.fillStyle=vg;g.fillRect(0,0,W2,H2);
+  const lg=g.createLinearGradient(0,H2*0.45,0,H2);lg.addColorStop(0,'rgba(0,0,0,0)');lg.addColorStop(1,'rgba(0,0,0,.85)');g.fillStyle=lg;g.fillRect(0,0,W2,H2);
+  const SERIF='"Noto Serif JP","Hiragino Mincho ProN","Yu Mincho",serif';g.textBaseline='alphabetic';g.shadowColor='#000';g.shadowBlur=14;
+  g.fillStyle='#f2e6d8';g.font=`700 34px ${SERIF}`;g.textAlign='left';g.fillText('ひとかた',48,70);g.font=`500 20px ${SERIF}`;g.fillStyle='rgba(242,230,216,.8)';g.fillText('― 京都人形奇譚 ―',50,102);
+  g.textAlign='center';g.font=`900 ${result.kind==='win'?84:72}px ${SERIF}`;g.fillStyle=result.kind==='win'?'#f2e6d8':'#ff3b2b';
+  wrapText(g,result.kind==='win'?'脱出成功':result.deathT,W2/2,H2*0.56,W2-160,80);
+  g.font=`700 30px ${SERIF}`;g.fillStyle='#f2e6d8';g.fillText(`${result.map}　／　難易度：${result.diff}`,W2/2,H2*0.72);
+  g.font=`700 36px ${SERIF}`;g.fillText(result.kind==='win'?`タイム ${fmtT(result.time)}　　人形 ${result.keys}/5`:`人形 ${result.keys}/5　　生存 ${fmt(result.time)}`,W2/2,H2*0.81);
+  if(result.newT.length){g.font=`700 24px ${SERIF}`;g.fillStyle='#ffd27a';g.fillText('称号「'+result.newT.map(tName).join('」「')+'」を獲得',W2/2,H2*0.89);}
+  g.shadowBlur=0;g.textAlign='right';g.font=`600 22px ${SERIF}`;g.fillStyle='rgba(242,230,216,.85)';g.fillText('hitokata.emojiclash.com',W2-40,H2-28);
+  g.textAlign='left';g.fillStyle='rgba(255,90,70,.9)';g.fillText('ブラウザで無料プレイ',40,H2-28);
+  const url=cv.toDataURL('image/png');cardBlob=await new Promise(r=>cv.toBlob(r,'image/png'));
+  const img=$(result.kind==='win'?'winCard':'overCard');img.src=url;img.style.display='block';}
+function shareText(){return result.kind==='win'?`【${result.map}・${result.diff}】を ${fmtT(result.time)} で脱出した。\nサイレンが鳴るたび、ヤツらは増える――\n#ひとかた #ホラーゲーム`:`${result.deathT}……（人形 ${result.keys}/5・${fmt(result.time)}）\n【${result.map}・${result.diff}】\n#ひとかた #ホラーゲーム`;}
+function shareX(){if(!result)return;window.open('https://twitter.com/intent/tweet?text='+encodeURIComponent(shareText())+'&url='+encodeURIComponent(GAME_URL),'_blank','noopener');}
+async function shareImg(){if(!cardBlob)return;const file=new File([cardBlob],'hitokata_result.png',{type:'image/png'});
+  try{if(navigator.canShare&&navigator.canShare({files:[file]})){await navigator.share({files:[file],text:shareText()+'\n'+GAME_URL});return;}}catch(e){if(e&&e.name==='AbortError')return;}
+  const a=document.createElement('a');a.href=URL.createObjectURL(cardBlob);a.download='hitokata_result.png';document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove();},1500);}
+document.querySelectorAll('.xBtn').forEach(b=>b.onclick=shareX);document.querySelectorAll('.imgBtn').forEach(b=>b.onclick=shareImg);
+
+function afterWin(t){if(settings.test){result=null;return;}
+  stats.cleared[mapId]=true;saveJ('hitokata_stats',stats);
+  const ids=['first'];if(!P.hides)ids.push('nohide');if(!P.hints)ids.push('nohint');if(!P.everHunted)ids.push('unseen');if(t<180)ids.push('fast');if(P.darkT>t*0.8)ids.push('dark');if(activeCount()>=3)ids.push('three');if(settings.diff==='nightmare')ids.push('nightmare');
+  if(Object.keys(MAPS).every(id=>stats.cleared[id]))ids.push('all');
+  const nw=grant(ids);result={kind:'win',map:MAPS[mapId].name,diff:dif().name,time:t,keys:P.keys,newT:nw};
+  $('winNewT').innerHTML=nw.length?'🏅 称号「'+nw.map(tName).join('」「')+'」を獲得':'';$('winCard').style.display='none';buildCard();
+  $('winRank').textContent='';if(fbState!=='off'){$('winRank').textContent='ランキングに登録中…';submitTime(mapId,settings.diff||'normal',t).then(r=>{$('winRank').textContent=r?`オンラインランキング ${r.rank}位 / ${r.n}人`:'';});}}
+function afterDeath(){if(settings.test){result=null;return;}
+  stats.caught=(stats.caught||0)+1;saveJ('hitokata_stats',stats);const ids=[];if(catcher&&catcher.tp.cry)ids.push('child');if(stats.caught>=10)ids.push('ten');
+  const nw=grant(ids);result={kind:'over',map:MAPS[mapId].name,diff:dif().name,time:elapsed,keys:P.keys,deathT:catcher?catcher.tp.deathT:'還り人にされた',newT:nw};
+  $('overNewT').innerHTML=nw.length?'🏅 称号「'+nw.map(tName).join('」「')+'」を獲得':'';$('overCard').style.display='none';buildCard();}
+
+// ---------- enemy voices ----------
+function panOut(v,pan){const g=AC.createGain();g.gain.value=v;if(AC.createStereoPanner){const p=AC.createStereoPanner();p.pan.value=pan;g.connect(p);p.connect(master);}else g.connect(master);return g;}
+function sfxGroan(v,pan,low){if(!AC)return;const t=AC.currentTime;const out=panOut(v*0.55,pan);
+  const f=AC.createBiquadFilter();f.type='bandpass';f.frequency.value=low?480:720;f.Q.value=3;f.connect(out);const f2=AC.createBiquadFilter();f2.type='bandpass';f2.frequency.value=low?1100:1500;f2.Q.value=5;f2.connect(out);
+  const o=AC.createOscillator();o.type='sawtooth';const base=low?(74+Math.random()*14):(140+Math.random()*24);const L=1.4+Math.random()*0.9;o.frequency.setValueAtTime(base,t);o.frequency.linearRampToValueAtTime(base*(0.75+Math.random()*0.1),t+L);
+  const lfo=AC.createOscillator();lfo.frequency.value=4+Math.random()*4;const lgn=AC.createGain();lgn.gain.value=base*0.05;lfo.connect(lgn);lgn.connect(o.frequency);
+  const g=AC.createGain();g.gain.setValueAtTime(0.0001,t);g.gain.exponentialRampToValueAtTime(1,t+0.3);g.gain.setValueAtTime(1,t+L*0.6);g.gain.exponentialRampToValueAtTime(0.0001,t+L);
+  o.connect(g);g.connect(f);g.connect(f2);o.start(t);o.stop(t+L+0.1);lfo.start(t);lfo.stop(t+L+0.1);noiseHit(t,L,0.35,'bandpass',low?800:1200,out,1.5);}
+function sfxCry(v,pan){if(!AC)return;const t=AC.currentTime;const out=panOut(v*0.5,pan);const f=AC.createBiquadFilter();f.type='bandpass';f.frequency.value=1150;f.Q.value=2.2;f.connect(out);
+  const voice=(t0,f0,f1,d,vib)=>{const o=AC.createOscillator();o.type='sawtooth';o.frequency.setValueAtTime(f0,t0);o.frequency.exponentialRampToValueAtTime(f1,t0+d);
+    if(vib){const l=AC.createOscillator();l.frequency.value=6.5;const lg=AC.createGain();lg.gain.value=vib;l.connect(lg);lg.connect(o.frequency);l.start(t0);l.stop(t0+d+0.05);}
+    const g=AC.createGain();g.gain.setValueAtTime(0.0001,t0);g.gain.exponentialRampToValueAtTime(1,t0+0.05);g.gain.setValueAtTime(1,t0+d*0.6);g.gain.exponentialRampToValueAtTime(0.0001,t0+d);o.connect(g);g.connect(f);o.start(t0);o.stop(t0+d+0.05);};
+  voice(t,640,540,0.2);voice(t+0.3,660,560,0.18);voice(t+0.58,620,520,0.22);voice(t+0.95,720,470,1.3,22);noiseHit(t+0.95,1.2,0.18,'highpass',2600,out);}
+function voiceTick(dt){if(!AC||state!=='play')return;
+  for(const m of mascots){if(!m.active||!m.mesh.visible)continue;m.vT=(m.vT===undefined?2+Math.random()*4:m.vT)-dt;if(m.vT>0)continue;
+    m.vT=m.tp.cry?(m.state==='hunt'?2.5:5+Math.random()*4):(m.state==='hunt'?3:6+Math.random()*7);
+    const d=Math.hypot(P.x-m.x,P.z-m.z);const R=m.tp.cry?26:18;if(d>R)continue;
+    const v=Math.pow(1-d/R,1.4)*(los(m.x,m.z,P.x,P.z)?1:0.5);const rx=Math.cos(P.yaw),rz=-Math.sin(P.yaw);const pan=clamp(((m.x-P.x)*rx+(m.z-P.z)*rz)/(d||1),-1,1)*0.85;
+    if(m.tp.cry)sfxCry(v,pan);else sfxGroan(v,pan,m.tp.model==='male');}}
+function callOthers(m){let n=0;for(const o of mascots){if(o===m||!o.active||o.state==='hunt'||o.down>0)continue;o.state='investigate';o.lastX=P.x;o.lastZ=P.z;o.path=bfs(tileOf(o.x),tileOf(o.z),tileOf(P.x),tileOf(P.z))||[];n++;}
+  if(AC){const d=Math.hypot(P.x-m.x,P.z-m.z);sfxCry(1.3*clamp(1-d/30,0.4,1),0);}
+  showMsg('<span style="color:#ff4455">還り子が泣き叫んだ――</span>'+(n?'<br><small>ほかの還り人が集まってくる</small>':''),3);}
+
+// ---------- horrific catch ----------
+function sfxCatchStart(){if(!AC)return;const t=AC.currentTime;const ws=makeDist(9);const g=AC.createGain();g.gain.value=0.45;ws.connect(g);g.connect(master);
+  [116.5,123.5,164.8,174.6,233.1,246.9].forEach(f=>envOsc('sawtooth',f,t,1.25,0.33,ws,f*0.9));
+  noiseHit(t,0.35,1.1,'highpass',3200);
+  const s=AC.createBufferSource();s.buffer=noiseBuf;s.loop=true;const bp=AC.createBiquadFilter();bp.type='bandpass';bp.Q.value=1.6;bp.frequency.setValueAtTime(500,t);bp.frequency.exponentialRampToValueAtTime(2800,t+1.3);
+  const gg=AC.createGain();gg.gain.setValueAtTime(0.0001,t);gg.gain.exponentialRampToValueAtTime(0.75,t+1.3);gg.gain.setValueAtTime(0.0001,t+1.33);s.connect(bp);bp.connect(gg);gg.connect(master);s.start(t);s.stop(t+1.4);
+  [[300,1500],[317,1580]].forEach(([a,b])=>{const o=AC.createOscillator(),og=AC.createGain();o.type='sine';o.frequency.setValueAtTime(a,t);o.frequency.exponentialRampToValueAtTime(b,t+1.32);og.gain.setValueAtTime(0.0001,t);og.gain.exponentialRampToValueAtTime(0.22,t+1.3);og.gain.setValueAtTime(0.0001,t+1.33);o.connect(og);og.connect(master);o.start(t);o.stop(t+1.4);});}
+function sfxCatchHit(){if(!AC)return;const t=AC.currentTime;const ws=makeDist(16);const g=AC.createGain();g.gain.value=0.75;ws.connect(g);g.connect(master);
+  [0,1,2].forEach(k=>{const o=AC.createOscillator();o.type='sawtooth';o.frequency.setValueAtTime(1150+k*43,t);o.frequency.exponentialRampToValueAtTime(240+k*15,t+1.7);
+    const l=AC.createOscillator();l.frequency.value=10+k*1.7;const lg=AC.createGain();lg.gain.value=70;l.connect(lg);lg.connect(o.frequency);
+    const f=AC.createBiquadFilter();f.type='bandpass';f.frequency.value=1300+k*500;f.Q.value=1.3;const og=AC.createGain();og.gain.setValueAtTime(0.9,t);og.gain.exponentialRampToValueAtTime(0.0001,t+1.8);
+    o.connect(f);f.connect(og);og.connect(ws);o.start(t);o.stop(t+1.9);l.start(t);l.stop(t+1.9);});
+  noiseHit(t,1.3,1.0,'bandpass',2300,ws,0.8);
+  for(let i=0;i<8;i++){const tt=t+0.02+i*0.04+Math.random()*0.03;noiseHit(tt,0.035,1.5,'bandpass',1600+Math.random()*2800,master,3);}
+  envOsc('sine',95,t,0.7,1.5,master,26);noiseHit(t,0.35,1.3,'lowpass',240);
+  envOsc('sine',3950,t+0.5,2.8,0.07,master);}
+
+// ---------- tutorial ----------
+function showTut(cb){$('tutText').innerHTML=(isTouch?
+  '左下のスティックで移動、画面右側をドラッグで視点。<br>「走る」は速いが、足音で気づかれる。':'WASDで移動、マウスで視点。Shiftで走れるが、足音で気づかれる。')+
+  '<br><br>🎎 <b>5体の人形</b>を集めて、紫に光る<b>結界の出口</b>から逃げろ。<br>🔦 還り人の懐中電灯の光は<b>ヤツらの視線</b>。👁 が満タンになると追われる。<br>🚪 物置に隠れられるが、長居するとバレる。<br>📢 サイレンが鳴るたび、還り人が増える。<br><br><b style="color:#ff8a7a">還り人たち</b><br>鎌の男：耳がいい。すり足でも近いと気づく。<br>鉈の女：足は遅いが、視界が広い。<br>還り子：泣き声で居場所がわかる。見つかると仲間を呼ぶ。';
+  $('tut').style.display='flex';$('tutOk').onclick=()=>{$('tut').style.display='none';try{localStorage.setItem('hitokata_tut','1');}catch(e){}cb&&cb();};}
 
 let sirenT=60;const SIREN_IV=60;
 function activeCount(){return mascots.filter(m=>m.active).length;}
 function spawnFar(m){const c=[];for(let z=1;z<W-1;z++)for(let x=1;x<W-1;x++){if(grid[z][x]!==0||reserved(x,z))continue;const d=Math.hypot(x*T-P.x,z*T-P.z);if(d>24&&!los(P.x,P.z,x*T,z*T))c.push([x,z,d]);}
   if(!c.length)for(let z=1;z<W-1;z++)for(let x=1;x<W-1;x++)if(grid[z][x]===0&&Math.hypot(x*T-P.x,z*T-P.z)>14)c.push([x,z]);const t=c[rnd(c.length)];m.x=t[0]*T;m.z=t[1]*T;m.yaw=Math.random()*6;m.state='patrol';m.path=[];m.meter=0;}
-function sirenTick(dt){sirenT-=dt;if(sirenT>0)return;sirenT=SIREN_IV;sfxSiren();const next=mascots.find(m=>!m.active);
-  if(next){next.active=true;next.mesh.visible=true;spawnFar(next);resetPose(next);showMsg(`…サイレンが鳴り響いている<br><small style="color:#ff8a7a">還り人が増えた（${activeCount()}/${mascots.length}）</small>`,4);}
+function sirenTick(dt){sirenT-=dt;if(sirenT>0)return;sirenT=dif().siren;sfxSiren();const next=activeCount()<dif().max?mascots.find(m=>!m.active):null;
+  if(next){next.active=true;next.mesh.visible=true;spawnFar(next);resetPose(next);showMsg(`…サイレンが鳴り響いている<br><small style="color:#ff8a7a">還り人が増えた（${activeCount()}/${dif().max}）</small>`,4);}
   else showMsg('…サイレンが鳴り響いている',3);}
 function startGame(){
   loadMap(settings.map);
@@ -1516,14 +1728,14 @@ function startGame(){
   const dm=distMap(SX,SZ);const far=[];for(let z=1;z<W-1;z++)for(let x=1;x<W-1;x++)if(grid[z][x]===0&&dm[z*W+x]>=11&&!reserved(x,z))far.push([x,z]);shuffle(far);
   const spawns=[];for(const f of far){if(spawns.length>=mascots.length)break;if(spawns.every(s=>Math.abs(s[0]-f[0])+Math.abs(s[1]-f[1])>=7))spawns.push(f);}
   while(spawns.length<mascots.length)spawns.push(far[rnd(far.length)]);
-  mascots.forEach((m,i)=>{m.active=i===0;m.x=spawns[i][0]*T;m.z=spawns[i][1]*T;m.yaw=Math.random()*6;m.state='wait';m.timer=2+i*2.5;m.path=[];m.lockerTarget=null;m.suspect=false;m.meter=0;m.phase=0;m.mesh.visible=m.active;m.awake=false;m.jerk=0;m.watched=false;m.mesh.position.set(m.x,0,m.z);resetPose(m);});ambT={bell:12,chime:4,ins:2,rus:6,siren:6};
+  mascots.forEach((m,i)=>{m.active=i<dif().start;m.x=spawns[i][0]*T;m.z=spawns[i][1]*T;m.yaw=Math.random()*6;m.state='wait';m.timer=2+i*2.5;m.path=[];m.lockerTarget=null;m.suspect=false;m.meter=0;m.phase=0;m.mesh.visible=m.active;m.awake=false;m.jerk=0;m.watched=false;m.mesh.position.set(m.x,0,m.z);resetPose(m);});ambT={bell:12,chime:4,ins:2,rus:6,siren:6};
   mascots.forEach(m=>{if(!m.active){m.x=-999;m.z=-999;m.mesh.position.set(-999,0,-999);}});
   gateOpen=false;elapsed=0;caughtT=0;catcher=null;tensLvl=0;chaseLvl=0;
   ['title','over','win','pause'].forEach(id=>$(id).style.display='none');
   $('bite').style.opacity=0;$('flash').style.opacity=0;$('hud').style.display='block';$('stam').style.display='block';$('cross').style.display=isTouch?'none':'block';$('locker').style.display='none';$('pauseBtn').style.display='block';
   if(isTouch)$('touch').style.display='block';
   $('bLight').classList.remove('on');
-  hintCD=0;hintT=0;hintLeft=HINT_MAX;updHintBtn();closeMap();sirenT=SIREN_IV;$('hint').style.opacity=0;P.y=0;P.vy=0;P.ammo=30;P.reload=0;P.fireCD=0;input.fire=false;input.jump=false;
+  hintCD=0;hintT=0;hintLeft=HINT_MAX;updHintBtn();closeMap();sirenT=dif().siren;P.hides=0;P.hints=0;P.darkT=0;P.everHunted=false;lastShot=null;result=null;cardBlob=null;$('blk').style.opacity=0;mascots.forEach(m=>m.vT=undefined);$('hint').style.opacity=0;P.y=0;P.vy=0;P.ammo=30;P.reload=0;P.fireCD=0;input.fire=false;input.jump=false;
   const tm=!!settings.test;gun.visible=false;$('testBadge').style.display=tm?'block':'none';$('ammo').style.display=tm?'block':'none';
   $('bFire').style.display=tm&&isTouch?'flex':'none';stopJack();$('bJump').style.display=tm&&isTouch?'flex':'none';updateAmmo();
   mascots.forEach(m=>{m.down=0;m.fall=0;m.hits=0;m.flinch=0;m.mesh.rotation.x=0;});
@@ -1606,7 +1818,7 @@ function drawMap(){const cv=$('mapCv'),g=cv.getContext('2d'),S=cv.width,c=S/W;g.
   g.fillStyle='rgba(20,10,5,.85)';g.font='bold 16px serif';g.textAlign='left';g.fillText(MAPS[mapId].name,10,20);}
 function nearestDoll(){let best=null,bd=1e9;for(const k of keys){if(k.got)continue;const d=Math.hypot(P.x-k.px,P.z-k.pz);if(d<bd){bd=d;best=k;}}return best?{k:best,d:bd}:null;}
 function showHint(){if(state!=='play')return;if(hintLeft<=0&&!settings.test){$('hintTx').textContent='もう気配は感じられない…';$('hint').style.opacity=1;hintT=1.4;$('hintAr').style.visibility='hidden';return;}if(hintCD>0){$('hintTx').textContent=`もう少し待て（${Math.ceil(hintCD)}秒）`;$('hint').style.opacity=1;hintT=1.2;$('hintAr').style.visibility='hidden';return;}
-  const n=nearestDoll();if(!n)return;if(!settings.test)hintLeft--;updHintBtn();hintT=3.5;hintCD=8;$('hintAr').style.visibility='visible';$('hint').style.opacity=1;sfxKey();}
+  const n=nearestDoll();if(!n)return;if(!settings.test)hintLeft--;P.hints=(P.hints||0)+1;updHintBtn();hintT=3.5;hintCD=8;$('hintAr').style.visibility='visible';$('hint').style.opacity=1;sfxKey();}
 function updateHint(dt){hintCD=Math.max(0,hintCD-dt);if(hintT>0){hintT-=dt;const n=nearestDoll();if(n&&$('hintAr').style.visibility!=='hidden'){const a=Math.atan2(n.k.px-P.x,n.k.pz-P.z);let rel=-(a-(P.yaw+Math.PI));
       $('hintAr').style.transform=`rotate(${rel}rad)`;$('hintTx').innerHTML=`人形の気配 … 約${Math.round(n.d)}m`+(n.d<8?'（近い）':'')+`<br><small>残り ${hintLeft} 回</small>`;}if(hintT<=0)$('hint').style.opacity=0;}
   // whisper/bell from the nearest doll when close
@@ -1620,7 +1832,12 @@ $('pauseBtn').addEventListener('click',()=>pauseGame());
 const bFire=$('bFire');bFire.addEventListener('touchstart',e=>{input.fire=true;bFire.classList.add('on');e.preventDefault();},{passive:false});
 bFire.addEventListener('touchend',e=>{input.fire=false;bFire.classList.remove('on');e.preventDefault();},{passive:false});
 $('bJump').addEventListener('touchstart',e=>{input.jump=true;e.preventDefault();},{passive:false});
-$('startBtn').onclick=()=>{initAudio();startGame();};
+['pointerdown','keydown','touchstart'].forEach(ev=>addEventListener(ev,()=>{if(state==='title')initAudio();},{passive:true}));
+$('startBtn').onclick=()=>{initAudio();let seen=false;try{seen=!!localStorage.getItem('hitokata_tut');}catch(e){}if(seen)startGame();else showTut(startGame);};
+$('howBtn').onclick=()=>showTut(null);
+$('titlesBtn').onclick=()=>{renderTitles();$('titles').style.display='flex';};
+$('rankBtn').onclick=()=>{rkMap=settings.map;rkDiff=settings.diff||'normal';$('rank').style.display='flex';renderRank();};
+document.querySelectorAll('.backBtn').forEach(b=>b.onclick=()=>{$('titles').style.display='none';$('rank').style.display='none';});
 $('retryBtn').onclick=()=>{initAudio();startGame();};
 $('againBtn').onclick=()=>{initAudio();startGame();};
 $('resumeBtn').onclick=resumeGame;
@@ -1630,7 +1847,7 @@ function nearestLocker(){let best=null,bd=1.8;for(const l of lockers){const d=Ma
 function toggleHide(){
   if(P.hidden){P.warned=false;const l=P.hidden;P.hidden=null;P.x=l.x+l.dx*1.0;P.z=l.z+l.dz*1.0;$('locker').style.display='none';sfxLocker();return;}
   const l=nearestLocker();if(!l)return;
-  P.hidden=l;P.yaw=Math.atan2(-l.dx,-l.dz);P.pitch=0;$('locker').style.display='block';sfxLocker();
+  P.hidden=l;P.hides=(P.hides||0)+1;P.yaw=Math.atan2(-l.dx,-l.dz);P.pitch=0;$('locker').style.display='block';sfxLocker();
   for(const m of mascots){if(m.state==='hunt')continue;if(m.meter>0.5&&Math.hypot(m.x-P.x,m.z-P.z)<14){m.state='hunt';m.meter=1;huntStart(m);}}
 }
 
@@ -1681,8 +1898,8 @@ function dollPose(m,dt,watched,dist){const u=m.mesh.userData;
 const sightRange=()=>P.light?17:9;
 function canSee(m){
   if(P.hidden)return false;
-  const dx=P.x-m.x,dz=P.z-m.z,d=Math.hypot(dx,dz);if(d>sightRange())return false;
-  if(d>2.5){const dot=(dx*Math.sin(m.yaw)+dz*Math.cos(m.yaw))/d;if(dot<Math.cos(0.75))return false;}
+  const dx=P.x-m.x,dz=P.z-m.z,d=Math.hypot(dx,dz);if(d>sightRange()*(m.tp.sight||1))return false;
+  if(d>2.5){const dot=(dx*Math.sin(m.yaw)+dz*Math.cos(m.yaw))/d;if(dot<Math.cos(m.tp.fov||0.75))return false;}
   return los(m.x,m.z,P.x,P.z);
 }
 function turnTo(m,target,rate){let df=target-m.yaw;while(df>Math.PI)df-=Math.PI*2;while(df<-Math.PI)df+=Math.PI*2;m.yaw+=clamp(df,-rate,rate);}
@@ -1692,12 +1909,12 @@ function followPath(m,speed,dt){if(!m.path.length)return true;const [tx,tz]=m.pa
 function pickPatrol(m){let tx,tz,tries=0;const stalky=Math.random()<0.22+P.keys*0.1;
   do{if(stalky){tx=tileOf(P.x)+rnd(11)-5;tz=tileOf(P.z)+rnd(11)-5;}else{tx=1+rnd(W-2);tz=1+rnd(W-2);}tries++;}while(solid(tx,tz)&&tries<60);
   if(!solid(tx,tz))m.path=bfs(tileOf(m.x),tileOf(m.z),tx,tz)||[];}
-function huntStart(m,quiet){sfxSting();sfxCatch(m.tp);if(!quiet||true)showMsg(`<span style="color:#ff4455">${m.tp.name}に見つかった――</span>`,2);}
+function huntStart(m,quiet){P.everHunted=true;if(m.tp.caller)setTimeout(()=>{if(state==='play')callOthers(m);},400);sfxSting();sfxCatch(m.tp);if(!quiet||true)showMsg(`<span style="color:#ff4455">${m.tp.name}に見つかった――</span>`,2);}
 function updateMascot(m,dt){
   if(m.tp.ai==='doll'&&!(m.down>0)){if(m.fall>0){m.fall=Math.max(0,m.fall-dt*2.5);applyFall(m);}updateDoll(m,dt);return;}
   if(m.down>0){m.down-=dt;m.fall=Math.min(1,m.fall+dt*4);m.meter=0;m.speed=0;applyFall(m);if(m.down<=0){m.state='look';m.timer=1.2;m.path=[];m.lockerTarget=null;}return;}
   if(m.fall>0){m.fall=Math.max(0,m.fall-dt*2.5);}
-  const vPatrol=1.9+P.keys*0.15,vSearch=2.7+P.keys*0.2,vHunt=8.3;
+  const kSp=(m.tp.spd||1)*dif().spd;const vPatrol=(1.9+P.keys*0.15)*kSp,vSearch=(2.7+P.keys*0.2)*kSp,vHunt=8.3*(0.5+0.5*kSp);
   m.repath-=dt;m.speed=0;
   m.stuckT+=dt;if(m.stuckT>2){if(m.state!=='wait'&&m.state!=='look'&&m.state!=='notice'&&Math.hypot(m.x-m.sx,m.z-m.sz)<0.3){m.path=[];m.x=tileOf(m.x)*T;m.z=tileOf(m.z)*T;if(m.state==='patrol'||m.state==='investigate'){m.state='patrol';pickPatrol(m);}}m.stuckT=0;m.sx=m.x;m.sz=m.z;}
   const dist=Math.hypot(P.x-m.x,P.z-m.z);
@@ -1715,7 +1932,7 @@ function updateMascot(m,dt){
     else{const v=vSearch+0.6;if(followPath(m,v,dt))moveToward(m,fx,fz,v,dt);}
     if(!canSee(m)){animateMascot(m,dt,false);return;}}
   const sees=canSee(m);
-  if(sees){const t=lerp(0.35,1.6,clamp(dist/sightRange(),0,1))/(P.running?1.6:1);
+  if(sees){const t=lerp(0.35,1.6,clamp(dist/(sightRange()*(m.tp.sight||1)),0,1))/(P.running?1.6:1)/dif().det;
     if(m.meter===0)sfxHmm();
     m.meter=Math.min(1,m.meter+dt/t);m.lastX=P.x;m.lastZ=P.z;m.state='notice';m.path=[];turnTo(m,Math.atan2(P.x-m.x,P.z-m.z),dt*2.5);
     if(m.meter>=1){m.state='hunt';m.lockerTarget=null;huntStart(m);}
@@ -1759,16 +1976,16 @@ function caught(m,reason){
   const u=m.mesh.userData;u.armR.rotation.x=-2.0;u.armL.rotation.x=-2.0;u.head.rotation.y=0;m.fall=0;m.mesh.rotation.x=0;$('overTitle').textContent=m.tp.deathT;
   // others vanish into the dark
   mascots.forEach(o=>{if(o!==m)o.mesh.visible=false;});
-  P.light=true;sfxCatch(m.tp);sfxScream();$('flash').style.opacity=0.5;$('eye').style.opacity=0;
+  P.light=true;sfxCatchStart();$('flash').style.opacity=0.5;$('eye').style.opacity=0;
   try{document.exitPointerLock&&document.exitPointerLock();}catch(e){}
 }
 function win(){
   state='win';const t=elapsed;let best=getBest(mapId);if(!settings.test&&(!best||t<best)){best=t;try{localStorage.setItem(bestKey(mapId),t);}catch(e){}}
   $('winText').innerHTML=`${MAPS[mapId].winT}<br>タイム：<b>${fmt(t)}</b>`;$('bestWin').textContent=settings.test?'🧪 テストモードのため記録されません':(best?`ベスト：${fmt(best)}`:'');
-  $('win').style.display='flex';hideHud();exitPointer();
+  $('win').style.display='flex';hideHud();exitPointer();shotWanted=true;afterWin(t);
   if(AC){mbGain.gain.setTargetAtTime(0,AC.currentTime,0.3);heartGain.gain.setTargetAtTime(0,AC.currentTime,0.3);}
 }
-function hideHud(){stopJack();$('radio').style.opacity=0;gun.visible=false;input.fire=false;['hud','stam','cross','touch','pauseBtn','locker','ammo','testBadge'].forEach(id=>$(id).style.display='none');$('prompt').textContent='';$('danger').style.opacity=0;$('eye').style.opacity=0;}
+function hideHud(){radioOff();stopJack();$('radio').style.opacity=0;gun.visible=false;input.fire=false;['hud','stam','cross','touch','pauseBtn','locker','ammo','testBadge'].forEach(id=>$(id).style.display='none');$('prompt').textContent='';$('danger').style.opacity=0;$('eye').style.opacity=0;}
 function fmt(t){return `${Math.floor(t/60)}:${String(Math.floor(t%60)).padStart(2,'0')}`;}
 
 // ---------- player ----------
@@ -1787,7 +2004,8 @@ function updatePlayer(dt){
   if(moving){const s=Math.sin(P.yaw),c=Math.cos(P.yaw);const vx=(mx*c-mz*s)*sp*dt,vz=(-mx*s-mz*c)*sp*dt;
     const p={x:P.x+vx,z:P.z+vz};collide(p,0.33,P.y>0.55);P.x=p.x;P.z=p.z;
     P.bob+=dt*(wantRun?13:8);P.stepAcc+=sp*dt;if(P.stepAcc>(wantRun?1.7:1.4)){P.stepAcc=0;sfxStep(wantRun?0.28:0.12,wantRun);
-      if(wantRun){let best=null,bd=13;for(const m of mascots){const d=Math.hypot(m.x-P.x,m.z-P.z);if(d<bd&&(m.state==='patrol'||m.state==='look'||m.state==='wait')){bd=d;best=m;}}
+      if(!wantRun){for(const m of mascots){if(!m.active||!(m.tp.hear>1))continue;const d=Math.hypot(m.x-P.x,m.z-P.z);if(d<4.8&&(m.state==='patrol'||m.state==='look'||m.state==='wait')&&Math.random()<0.45){m.state='investigate';m.lastX=P.x;m.lastZ=P.z;m.path=bfs(tileOf(m.x),tileOf(m.z),tileOf(P.x),tileOf(P.z))||[];showMsg('…鎌の還り人が、足音に耳をすませている',2);}}}
+      if(wantRun){let best=null,bd=1e9;for(const m of mascots){if(!m.active)continue;const d=Math.hypot(m.x-P.x,m.z-P.z);if(d<13*(m.tp.hear||1)&&d<bd&&(m.state==='patrol'||m.state==='look'||m.state==='wait')){bd=d;best=m;}}
         if(best){best.state='investigate';best.lastX=P.x;best.lastZ=P.z;best.path=bfs(tileOf(best.x),tileOf(best.z),tileOf(P.x),tileOf(P.z))||[];showMsg('…足音を聞かれたかもしれない',2);}}}}
   $('stamBar').style.width=P.stam+'%';$('stamBar').style.background=P.exhausted?'#a33':'#ddd';
   for(const k of keys){if(k.got)continue;const hd=k.mesh.userData.head;let a=Math.atan2(P.x-k.px,P.z-k.pz);hd.rotation.y=lerp(hd.rotation.y,a-k.mesh.rotation.y,dt*0.8);k.mesh.userData.flame.scale.x=0.8+Math.random()*0.4;k.mesh.userData.beacon.material.opacity=0.28+Math.random()*0.12;
@@ -1812,7 +2030,7 @@ let last=performance.now();
 function frame(now){
   requestAnimationFrame(frame);
   const dt=Math.min(0.05,(now-last)/1000);last=now;
-  if(state==='play'){elapsed+=dt;updatePlayer(dt);sirenTick(dt);for(const m of mascots){if(state!=='play')break;if(!m.active)continue;updateMascot(m,dt);}$('time').textContent=fmt(elapsed);}
+  if(state==='play'){elapsed+=dt;if(!P.light)P.darkT=(P.darkT||0)+dt;voiceTick(dt);updatePlayer(dt);sirenTick(dt);for(const m of mascots){if(state!=='play')break;if(!m.active)continue;updateMascot(m,dt);}$('time').textContent=fmt(elapsed);}
   let nd=1e9,nm=null,maxMeter=0,hunting=false,hd=1e9,hm=null;for(const m of mascots){if(!m.mesh.visible)continue;const d=Math.hypot(P.x-m.x,P.z-m.z);if(d<nd)nd=d;if(m.tp.ai!=='doll'&&d<hd){hd=d;hm=m;}if(m.tp.ai==='doll'&&m.awake&&!m.watched&&d<8)hunting=true;maxMeter=Math.max(maxMeter,m.meter);if(m.state==='hunt')hunting=true;}
   if(state==='play'){$('eye').style.opacity=maxMeter>0.01?1:0;$('eyeBar').style.width=(maxMeter*100)+'%';}
   if(state==='caught'&&catcher){caughtT+=dt;
@@ -1823,8 +2041,9 @@ function frame(now){
     u.armL.rotation.x=lerp(u.armL.rotation.x,-1.5,dt*6);u.armR.rotation.x=lerp(u.armR.rotation.x,-1.5,dt*6);u.armL.rotation.z=-0.25;u.armR.rotation.z=0.25;
     const lunge=t<1.0?0:clamp((t-1)/0.33,0,1)*0.35;m.x=cf.kx-cf.fx*lunge;m.z=cf.kz-cf.fz*lunge;m.mesh.position.set(m.x,0,m.z);
     $('flash').style.opacity=Math.max(0,0.5-t*0.8);
-    if(t>=1.33&&!cf.chomped){cf.chomped=true;sfxChomp();$('bite').style.opacity=1;shake=0.25;}
-    if(caughtT>2.4&&$('over').style.display!=='flex'){$('bite').style.opacity=0;$('overText').innerHTML=`${caughtReason}<br>人形：${P.keys}/${NKEYS}　生存時間：${fmt(elapsed)}`;$('over').style.display='flex';hideHud();$('flash').style.opacity=0;
+    $('blk').style.opacity=(t>0.95&&t<1.33)?((Math.floor(t*28)%3===0)?0.92:0):0;if(t>1.18&&!cf.shot){cf.shot=true;shotWanted=true;}
+    if(t>=1.33&&!cf.chomped){cf.chomped=true;sfxCatchHit();$('bite').style.opacity=1;shake=0.3;}
+    if(caughtT>2.4&&$('over').style.display!=='flex'){$('bite').style.opacity=0;$('overText').innerHTML=`${caughtReason}<br>人形：${P.keys}/${NKEYS}　生存時間：${fmt(elapsed)}`;$('over').style.display='flex';hideHud();$('flash').style.opacity=0;$('blk').style.opacity=0;afterDeath();
       if(AC){mbGain.gain.setTargetAtTime(0,AC.currentTime,0.5);heartGain.gain.setTargetAtTime(0,AC.currentTime,0.2);}}}
   // world animation
   for(const s of spinners){s.obj.rotation.z+=dt*s.speed;for(const g of s.gondolas)g.rotation.z=-s.obj.rotation.z+(g.userData.broken?0.6:Math.sin(now*0.0007+g.position.x)*0.05);}
@@ -1865,9 +2084,10 @@ function frame(now){
   if(msgTimer>0){msgTimer-=dt;if(msgTimer<=0)$('msg').style.opacity=0;}
   updateRain(dt);syncMouths();syncReal();if(mapOpen){if(state!=='play')closeMap();else{drawMap.t=(drawMap.t||0)+dt;if(drawMap.t>0.1){drawMap.t=0;drawMap();}}}if(state==='play')updateHint(dt);else $('hint').style.opacity=0;
   if(composer&&settings.q!=='low'){gradePass.uniforms.time.value=now*0.001;composer.render();}else renderer.render(scene,camera);
+  if(shotWanted){shotWanted=false;try{lastShot=renderer.domElement.toDataURL('image/jpeg',0.85);}catch(e){}}
 }
 if(!MAPS[settings.map])settings.map='gion';
-syncSettingsUI();applyQuality();renderMaps();preview();loadReal();
+syncSettingsUI();applyQuality();renderMaps();preview();loadReal();initFirebase();
 requestAnimationFrame(frame);
 })();
 </script>
