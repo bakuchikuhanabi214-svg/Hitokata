@@ -953,7 +953,7 @@ function genHanami(){
     carve(3,12,20,12);                     // cross street
     carve(8,23,15,23);
     for(let x=13;x<=16;x++)for(let z=2;z<=4;z++)kp(x,z);specials.push({type:'ichiriki',x0:13,z0:2,w:4,h:3});
-    // ろーじ: dead-end and through alleys
+    // 路地: dead-end and through alleys
     for(let z=3;z<=22;z+=2+rnd(2)){if(z>=11&&z<=13)continue;for(const side of [-1,1]){if(Math.random()<.35)continue;if(side>0&&z<=5)continue;
         const L=2+rnd(7);const x0=side<0?10:13;const x1=side<0?Math.max(4,10-L+1):Math.min(19,13+L-1);carve(x0,z,x1,z);
         if(Math.random()<.4){const zz=z+(Math.random()<.5?1:-1);if(zz>1&&zz<23&&zz!==12)carve(x1,zz,x1,zz);}}}
@@ -1037,7 +1037,7 @@ const MAPS={
     start:'閉館したはずの博物館。展示ケースの人形が、こちらを見ている。<br><small>5体の人形を集め、非常口から脱出しろ。</small>',open:'非常口の封印が解けた――<br><small>紫に光る非常口（右下）を目指せ</small>',winT:'非常口を抜けると、ガラスケースの人形が一体、消えていた。',hud:'非常口へ！'},
   kodaiji:{name:'高台寺・ねねの道',icon:'⛩',desc:'石畳のねねの道と、迷路のような石塀小路。坂の上には高台寺の本堂と鐘楼。紅葉が赤く揺れる。',gen:genKodaiji,build:buildKodaiji,
     start:'高台寺の境内で目を覚ました。石畳の先から、鈴の音がする。<br><small>5体の人形を集め、ねねの道の先の鳥居を抜けろ。</small>',open:'鳥居の結界が解けた――<br><small>ねねの道を下った先、紫の鳥居を目指せ</small>',winT:'坂を下りきると、石畳に自分の足音だけが響いていた。',hud:'鳥居へ！'},
-  hanami:{name:'花見小路通',icon:'🏮',desc:'お茶屋が並ぶ石畳の大通り。赤壁の茶屋、犬矢来、無数の提灯。行き止まりの「ろーじ」が多い。',gen:genHanami,build:buildHanami,
+  hanami:{name:'花見小路通',icon:'🏮',desc:'お茶屋が並ぶ石畳の大通り。赤壁の茶屋、犬矢来、無数の提灯。行き止まりの路地が多い。',gen:genHanami,build:buildHanami,
     start:'四条通から一本入った花見小路。提灯だけが灯り、人の気配がない。<br><small>5体の人形を集め、通りの南の鳥居から出ろ。</small>',open:'鳥居の結界が解けた――<br><small>花見小路を南へ。紫の鳥居を目指せ</small>',winT:'鳥居を抜けると、遠くでお囃子が聞こえた気がした。',hud:'南の鳥居へ！'},
   kamo:{name:'鴨川・先斗町',icon:'🌊',desc:'人ひとりがやっと通れる先斗町の細い路地と、高瀬川、鴨川の河川敷。川は渡れない。橋と飛び石を使え。',gen:genKamo,build:buildKamo,
     start:'雨の先斗町。細い路地の奥で、提灯が揺れている。<br><small>5体の人形を集め、先斗町の南の鳥居から出ろ。</small>',open:'鳥居の結界が解けた――<br><small>先斗町の南端、紫の鳥居を目指せ</small>',winT:'鳥居をくぐると、鴨川の水音だけが残った。',hud:'先斗町の南へ！'},
