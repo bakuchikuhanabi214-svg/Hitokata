@@ -4,11 +4,11 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
 <title>ひとかた ―京都人形奇譚―</title>
-<meta name="description" content="サイレンが鳴るたび、ヤツらは増える。夜の京都で5体の日本人形を集めて脱出する、PS2風の和製ホラー。全6マップ・ブラウザで無料・PC/スマホ対応。">
+<meta name="description" content="サイレンが鳴るたび、ヤツらは増える。夜の京都で5体の日本人形を集めて脱出する、PS2風の和製ホラー。全9マップ・ブラウザで無料・PC/スマホ対応。">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="爆竹花火ゲームズ">
 <meta property="og:title" content="ひとかた ―京都人形奇譚―｜無料ブラウザホラー">
-<meta property="og:description" content="サイレンが鳴るたび、ヤツらは増える。夜の京都で日本人形を集めて脱出しろ。全6マップ・PC/スマホ対応。">
+<meta property="og:description" content="サイレンが鳴るたび、ヤツらは増える。夜の京都で日本人形を集めて脱出しろ。全9マップ・PC/スマホ対応。">
 <meta property="og:url" content="https://hitokata.emojiclash.com/">
 <meta property="og:image" content="https://hitokata.emojiclash.com/ogp.jpg">
 <meta property="og:image:width" content="1200">
@@ -333,6 +333,9 @@ const ENV={
   kodaiji:{bg:0x120608,fog:0x1e0c10,dens:0.05,amb:0.5,ambC:0x4a3038,hemi:0.3,moon:0.4,stars:0},
   hanami:{bg:0x1a0505,fog:0x2a0c0a,dens:0.05,amb:0.5,ambC:0x5a3430,hemi:0.3,moon:0.4,stars:0},
   kamo:{bg:0x0c0608,fog:0x1a1014,dens:0.045,amb:0.5,ambC:0x40343a,hemi:0.3,moon:0.45,stars:0,rain:true},
+  fushimi:{bg:0x0e0406,fog:0x1c0a0a,dens:0.052,amb:0.55,ambC:0x4a2a2a,hemi:0.3,moon:0.35,stars:0},
+  arashiyama:{bg:0x060a08,fog:0x101a14,dens:0.058,amb:0.55,ambC:0x34443a,hemi:0.3,moon:0.35,stars:0,rain:true},
+  kiyomizu:{bg:0x100608,fog:0x1e0e12,dens:0.032,amb:0.6,ambC:0x4a3038,hemi:0.3,moon:0.45,stars:0},
 };
 function applyEnv(id){const e=ENV[id];moonLight.color.setHex(id==='gion'?0xff7a60:0xc0a8b0);scene.background.setHex(e.bg);scene.fog.color.setHex(e.fog);scene.fog.density=e.dens;amb.intensity=e.amb;amb.color.setHex(e.ambC);hemi.intensity=e.hemi;moonLight.intensity=e.moon;moonLight.color.setHex(0xc0a8b0);starsMat.opacity=e.stars;skyGroup.visible=e.sky!==false;}
 
@@ -901,23 +904,23 @@ function genKodaiji(){
 }
 function makeMaple(red=true){const g=new THREE.Group();g.add(beam(0,0,0,0.15,2.6,0.1,0.14,KM.darkWood));g.add(beam(0.1,1.8,0,-0.9,3.1,0.4,0.07,KM.darkWood));g.add(beam(0.1,2.0,0,1.0,3.3,-0.3,0.07,KM.darkWood));
   for(let i=0;i<9;i++){const s=new THREE.Mesh(new THREE.IcosahedronGeometry(0.8+Math.random()*0.5,0),red?(Math.random()<.6?NK.maple:NK.maple2):NK.pine);s.position.set((Math.random()-.5)*2.6,2.9+Math.random()*1.4,(Math.random()-.5)*2.6);s.scale.y=0.6;g.add(s);}return g;}
-function buildHall(sp){const cx=(sp.x0+(sp.w-1)/2)*T,cz=(sp.z0+(sp.h-1)/2)*T,sx=sp.w*T,sz=sp.h*T;const g=new THREE.Group();g.position.set(cx,0,cz);world.add(g);
+function buildHall(sp){const cw=sp.verm?NK2.verm:KM.darkWood;const cx=(sp.x0+(sp.w-1)/2)*T,cz=(sp.z0+(sp.h-1)/2)*T,sx=sp.w*T,sz=sp.h*T;const g=new THREE.Group();g.position.set(cx,0,cz);world.add(g);
   g.add(box(sx,0.9,sz,NK.ishi,0,0.45,0));g.add(box(sx-1.6,3.6,sz-1.4,KM.lattice,0,2.7,0));g.add(box(sx-0.6,0.25,sz-0.4,KM.darkWood,0,1.0,0));
-  for(let i=0;i<=6;i++){const x=-sx/2+0.5+i*(sx-1)/6;[-1,1].forEach(s=>g.add(new THREE.Mesh(new THREE.CylinderGeometry(0.16,0.16,3.6,8),KM.darkWood).translateX(x).translateY(2.7).translateZ(s*(sz/2-0.4))));}
+  for(let i=0;i<=6;i++){const x=-sx/2+0.5+i*(sx-1)/6;[-1,1].forEach(s=>g.add(new THREE.Mesh(new THREE.CylinderGeometry(0.16,0.16,3.6,8),cw).translateX(x).translateY(2.7).translateZ(s*(sz/2-0.4))));}
   g.add(box(sx-1.2,0.5,sz-1.0,KM.darkWood,0,4.6,0));
   [-1,1].forEach(s=>{const r=box(sx+3.4,0.28,sz/2+2.4,KM.kawara,0,5.9,s*(sz/4+0.7));r.rotation.x=s*0.55;g.add(r);});g.add(box(sx+1.6,0.5,0.5,KM.black,0,7.0,0));
   [-1,1].forEach(s=>{const o=box(0.5,1.1,0.4,KM.black,s*(sx/2+1.0),7.2,0);g.add(o);});
-  const sgn=plane(1.8,0.6,new THREE.MeshPhongMaterial({map:signTex('高台寺','#2a1a0c','#d8b878',44)}),0,4.0,sz/2-0.68);g.add(sgn);
+  const sgn=plane(1.8,0.6,new THREE.MeshPhongMaterial({map:signTex(sp.sign||'高台寺','#2a1a0c','#d8b878',sp.sign&&sp.sign.length>3?36:44)}),0,4.0,sz/2-0.68);g.add(sgn);
   for(let i=0;i<3;i++)g.add(box(4,0.16,0.4,NK.ishi,0,0.08+i*0.16,sz/2+0.2+(2-i)*0.4));}
 function buildSanmon(x,z){const g=new THREE.Group();g.position.set(x*T,0,z*T);world.add(g);
   [-1,1].forEach(s=>{g.add(new THREE.Mesh(new THREE.CylinderGeometry(0.22,0.22,4.4,10),KM.darkWood).translateX(s*3.4).translateY(2.2));g.add(new THREE.Mesh(new THREE.CylinderGeometry(0.16,0.16,4.0,10),KM.darkWood).translateX(s*3.4).translateY(2.0).translateZ(-1.2));
     g.add(box(1.2,3.6,0.2,KM.plaster,s*4.6,1.8,0));});
   g.add(box(7.6,0.4,0.4,KM.darkWood,0,4.3,0));[-1,1].forEach(s=>{const r=box(9.2,0.22,2.6,KM.kawara,0,5.0,s*0.95);r.rotation.x=s*0.5;g.add(r);});g.add(box(9.4,0.3,0.3,KM.black,0,5.55,0));
   const c=makeChochin(0xf0e0c0);c.scale.setScalar(2.2);c.position.set(0,3.2,0.1);g.add(c);addObs(x*T-3.4,z*T,0.25,0.25);addObs(x*T+3.4,z*T,0.25,0.25);}
-function buildTownCommon(groundMat,houseFn){const C=(W-1)*T/2;lanternLights=0;
-  const gr=new THREE.Mesh(new THREE.PlaneGeometry(260,260),groundMat);gr.rotation.x=-Math.PI/2;gr.position.set(C,0,C);world.add(gr);
+function buildTownCommon(groundMat,houseFn,borderFn){const C=(W-1)*T/2;lanternLights=0;
+  if(groundMat){const gr=new THREE.Mesh(new THREE.PlaneGeometry(260,260),groundMat);gr.rotation.x=-Math.PI/2;gr.position.set(C,0,C);world.add(gr);}
   const houseMap=Array.from({length:W},()=>Array(W).fill(false));for(const h of houses){for(let z=h.z0;z<h.z0+h.h;z++)for(let x=h.x0;x<h.x0+h.w;x++)houseMap[z][x]=true;houseFn(h);}
-  for(let i=0;i<W;i++)for(const [x,z] of [[i,0],[i,W-1],[0,i],[W-1,i]]){if(x===EX&&z===EZ)continue;const hh=5+Math.random()*3;world.add(box(T,hh,T,Math.random()<.5?KM.plaster:KM.lattice,x*T,hh/2,z*T));world.add(box(T+0.4,0.2,T+0.4,KM.kawara,x*T,hh+0.1,z*T));}
+  for(let i=0;i<W;i++)for(const [x,z] of [[i,0],[i,W-1],[0,i],[W-1,i]]){if(x===EX&&z===EZ)continue;if(borderFn&&borderFn(x,z)!==false)continue;const hh=5+Math.random()*3;world.add(box(T,hh,T,Math.random()<.5?KM.plaster:KM.lattice,x*T,hh/2,z*T));world.add(box(T+0.4,0.2,T+0.4,KM.kawara,x*T,hh+0.1,z*T));}
   for(let i=0;i<20;i++){const a=i/20*Math.PI*2,r=C*2.4+Math.random()*40;const m=new THREE.Mesh(new THREE.ConeGeometry(34+Math.random()*25,30+Math.random()*30,6),new THREE.MeshBasicMaterial({color:0x0a0810,fog:false}));m.position.set(C+Math.cos(a)*r,0,C+Math.sin(a)*r);world.add(m);}
   for(let i=0;i<12;i++){const pd=new THREE.Mesh(new THREE.CircleGeometry(0.5+Math.random()*0.9,14),new THREE.MeshPhongMaterial({color:0x0a0a0e,shininess:140,specular:0x8a8a9a}));pd.rotation.x=-Math.PI/2;pd.scale.y=0.6+Math.random()*0.6;const x=1+rnd(W-2),z=1+rnd(W-2);if(grid[z][x]!==0)continue;pd.position.set(x*T+(Math.random()-.5)*1.5,0.015,z*T+(Math.random()-.5)*1.5);world.add(pd);}
   return houseMap;}
@@ -1028,6 +1031,312 @@ function buildKamo(){
   const {openT,used,key}=placeItems();streetLamps(openT,used,key,10,2);
 }
 
+
+// ===================== MORE KYOTO MAPS (伏見稲荷・嵐山・清水寺) =====================
+const NK2={
+  verm:new THREE.MeshPhongMaterial({color:0xc8361a,emissive:0x2a0804,shininess:24,specular:0x331100}),
+  kuroki:new THREE.MeshPhongMaterial({color:0x2a2018,shininess:4,map:woodTex}),
+  shiba:new THREE.MeshPhongMaterial({color:0x6a4e30,shininess:3,map:KT.lattice}),
+  earth:new THREE.MeshPhongMaterial({map:KT.dirt,color:0x5a4a3a,shininess:2}),
+  bib:new THREE.MeshPhongMaterial({color:0xb0201a,shininess:6,side:THREE.DoubleSide}),
+  cedar:new THREE.MeshPhongMaterial({color:0x0e1a0e,shininess:2}),
+  trunk:new THREE.MeshPhongMaterial({color:0x2a1a12,shininess:2}),
+  gravel:new THREE.MeshPhongMaterial({color:0x5a5852,map:KT.dirt,shininess:4}),
+  eye:new THREE.MeshBasicMaterial({color:0xff3020}),
+};
+const _o3=new THREE.Object3D();
+function mtx(x,y,z,ry=0,sx=1,sy=1,sz=1,rx=0,rz=0){_o3.position.set(x,y,z);_o3.rotation.set(rx,ry,rz);_o3.scale.set(sx,sy,sz);_o3.updateMatrix();return _o3.matrix.clone();}
+function mkInst(geo,mat,arr){if(!arr.length)return;const im=new THREE.InstancedMesh(geo,mat,arr.length);arr.forEach((m,i)=>im.setMatrixAt(i,m));im.instanceMatrix.needsUpdate=true;world.add(im);}
+const G2={pil:(()=>{const g=new THREE.CylinderGeometry(0.12,0.14,1,8);g.translate(0,0.5,0);return g;})(),base:new THREE.CylinderGeometry(0.17,0.17,0.24,8),box:new THREE.BoxGeometry(1,1,1),
+  trunk:(()=>{const g=new THREE.CylinderGeometry(0.2,0.3,1,6);g.translate(0,0.5,0);return g;})(),cone:(()=>{const g=new THREE.ConeGeometry(1.5,1,7);g.translate(0,0.5,0);return g;})(),
+  stalk:(()=>{const g=new THREE.CylinderGeometry(0.07,0.09,1,6);g.translate(0,0.5,0);return g;})(),leaf:new THREE.SphereGeometry(1.7,7,5)};
+function newBatch(){return {pil:[],base:[],red:[],blk:[],mound:[],trunk:[],cone:[],stalk:[],leaf:[],fence:[],rail:[],step:[]};}
+function flushBatch(B){mkInst(G2.pil,NK2.verm,B.pil);mkInst(G2.base,KM.black,B.base);mkInst(G2.box,NK2.verm,B.red);mkInst(G2.box,KM.black,B.blk);mkInst(G2.box,NK2.earth,B.mound);
+  mkInst(G2.trunk,NK2.trunk,B.trunk);mkInst(G2.cone,NK2.cedar,B.cone);mkInst(G2.stalk,KM.bamboo,B.stalk);mkInst(G2.leaf,KM.leaf,B.leaf);mkInst(G2.box,NK2.shiba,B.fence);mkInst(G2.box,KM.darkWood,B.rail);mkInst(G2.box,KM.stoneM,B.step);}
+// torii facing along the path: ry=0 → spans x (path runs along z)
+function toriiInst(B,x,z,ry,w=2.7,h=3.0){const c=Math.cos(ry),s=Math.sin(ry);
+  for(const k of [-1,1]){const px=x+c*k*w*0.4,pz=z-s*k*w*0.4;B.pil.push(mtx(px,0,pz,0,1,h,1));B.base.push(mtx(px,0.12,pz));}
+  B.red.push(mtx(x,h*0.78,z,ry,w*1.12,0.14,0.2));B.red.push(mtx(x,h-0.06,z,ry,w*1.22,0.16,0.26));B.blk.push(mtx(x,h+0.07,z,ry,w*1.32,0.12,0.32));}
+function forestTile(B,x,z,n=2,mound=true){if(mound){const mh=1.6+Math.random()*1.0;B.mound.push(mtx(x*T,mh/2,z*T,0,T+0.1,mh,T+0.1));}
+  for(let i=0;i<n;i++){const px=x*T+(Math.random()-.5)*2,pz=z*T+(Math.random()-.5)*2,h=10+Math.random()*7;B.trunk.push(mtx(px,0,pz,0,1,h*0.5,1));
+    const r=0.9+Math.random()*0.5;B.cone.push(mtx(px,h*0.22,pz,Math.random()*6,r,h*0.8,r));}}
+function bambooTile(B,x,z,n){for(let i=0;i<n;i++)B.stalk.push(mtx(x*T+(Math.random()-.5)*2.6,0,z*T+(Math.random()-.5)*2.6,Math.random()*6,1,9+Math.random()*6,1,(Math.random()-.5)*0.08,(Math.random()-.5)*0.08));
+  B.leaf.push(mtx(x*T+(Math.random()-.5),9+Math.random()*4,z*T+(Math.random()-.5),Math.random()*6,1.2,0.6+Math.random()*0.5,1.2));}
+function mazeEdges(nx,nz,extra,noDead){const seen=new Set(['0,0']);const st=[[0,0]];const E=[];
+  while(st.length){const [i,j]=st[st.length-1];const nb=shuffle([[1,0],[-1,0],[0,1],[0,-1]]).map(([a,b])=>[i+a,j+b]).filter(([a,b])=>a>=0&&b>=0&&a<nx&&b<nz&&!seen.has(a+','+b));
+    if(!nb.length){st.pop();continue;}const [a,b]=nb[0];seen.add(a+','+b);E.push([i,j,a,b]);st.push([a,b]);}
+  for(let k=0;k<extra;k++){const i=rnd(nx),j=rnd(nz);const d=Math.random()<.5?[1,0]:[0,1];if(i+d[0]<nx&&j+d[1]<nz)E.push([i,j,i+d[0],j+d[1]]);}
+  if(noDead){const has=(a,b,c,d)=>E.some(e=>(e[0]===a&&e[1]===b&&e[2]===c&&e[3]===d)||(e[0]===c&&e[1]===d&&e[2]===a&&e[3]===b));
+    for(let i=0;i<nx;i++)for(let j=0;j<nz;j++){const deg=E.filter(e=>(e[0]===i&&e[1]===j)||(e[2]===i&&e[3]===j)).length;if(deg>1)continue;
+      const nb=shuffle([[1,0],[-1,0],[0,1],[0,-1]]).map(([a,b])=>[i+a,j+b]).filter(([a,b])=>a>=0&&b>=0&&a<nx&&b<nz&&!has(i,j,a,b));if(nb.length)E.push([i,j,nb[0][0],nb[0][1]]);}}
+  return E;}
+function makeKitsune(){const g=new THREE.Group();g.add(box(0.9,1.0,0.9,KM.stoneM,0,0.5,0));
+  const b=new THREE.Mesh(new THREE.SphereGeometry(0.32,10,8),KM.stoneM);b.scale.set(0.8,1.3,0.9);b.position.y=1.4;g.add(b);
+  const hd=new THREE.Mesh(new THREE.SphereGeometry(0.2,10,8),KM.stoneM);hd.position.set(0,1.95,0.06);g.add(hd);
+  const sn=new THREE.Mesh(new THREE.ConeGeometry(0.1,0.32,8),KM.stoneM);sn.rotation.x=Math.PI/2;sn.position.set(0,1.9,0.3);g.add(sn);
+  [-1,1].forEach(s=>{const e=new THREE.Mesh(new THREE.ConeGeometry(0.07,0.26,6),KM.stoneM);e.position.set(s*0.11,2.18,0);g.add(e);
+    const ey=new THREE.Mesh(new THREE.SphereGeometry(0.028,6,4),NK2.eye);ey.position.set(s*0.08,2.0,0.22);g.add(ey);});
+  const bib=new THREE.Mesh(new THREE.ConeGeometry(0.3,0.36,10,1,true),NK2.bib);bib.position.set(0,1.62,0.04);g.add(bib);
+  g.add(beam(0,1.1,-0.25,0,1.9,-0.45,0.09,KM.stoneM));addGlow(g,0,2.0,0.25,0xff3020,0.5);return g;}
+function makeOtsuka(){const g=new THREE.Group();for(let i=0;i<5;i++){const s=box(0.4+Math.random()*0.3,0.6+Math.random()*0.9,0.18,KM.stoneM,(Math.random()-.5)*1.6,0,(Math.random()-.5)*1.4);s.position.y=s.geometry.parameters.height/2;s.rotation.y=Math.random()-.5;g.add(s);}
+  for(let i=0;i<6;i++){const t=makeTorii(0.5,0.6,NK2.verm);t.position.set((Math.random()-.5)*1.8,0,(Math.random()-.5)*1.6);t.rotation.y=Math.random()-.5;g.add(t);}return g;}
+function openSides(h){const t=[],bo=[],le=[],ri=[];for(let x=h.x0;x<h.x0+h.w;x++){t.push([x,h.z0-1]);bo.push([x,h.z0+h.h]);}for(let z=h.z0;z<h.z0+h.h;z++){le.push([h.x0-1,z]);ri.push([h.x0+h.w,z]);}
+  const open=c=>c.some(([x,z])=>x>=0&&z>=0&&x<W&&z<W&&grid[z][x]===0);const s=[];if(open(t))s.push([0,-1]);if(open(bo))s.push([0,1]);if(open(le))s.push([-1,0]);if(open(ri))s.push([1,0]);return s;}
+
+// ---------- 伏見稲荷・千本鳥居 ----------
+function genFushimi(){
+  W=25;SX=12;SZ=3;EX=12;EZ=W-1;
+  for(let attempt=0;attempt<60;attempt++){blank();
+    carve(7,1,17,3);                                   // 奥社奉拝所の境内
+    for(let x=10;x<=14;x++){grid[1][x]=1;kp(x,1);}specials.push({type:'hall',x0:10,z0:1,w:5,h:1,sign:'奥社奉拝所',verm:true});
+    const CX=[2,7,12,17,22],CZ=[6,10,14,18,21];
+    for(const [i,j,a,b] of mazeEdges(5,5,9,true))carve(CX[i],CZ[j],CX[a],CZ[b]);   // 枝分かれする千本鳥居
+    carve(12,3,12,6);carve(12,21,12,23);carve(2,6,2,21);carve(2,21,12,21);   // 左の参道から下まで必ず抜けられる
+    const rests=shuffle([[7,10],[17,10],[2,14],[21,14],[7,18],[17,18]]).slice(0,3);
+    for(const [x,z] of rests)carve(x,z,x+1,z+1);       // お塚のある小さな広場
+    if(!finishGen())continue;
+    lowSet(8,2,'kitsune');lowSet(16,2,'kitsune');
+    for(const [x,z] of rests)lowSet(x+1,z+1,Math.random()<.5?'otsuka':'kitsune');
+    if(!allConnected())continue;
+    fillHousesAll({});
+    return;}
+}
+function buildFushimi(){const B=newBatch();
+  buildTownCommon(NK.dirt,h=>{for(let z=h.z0;z<h.z0+h.h;z++)for(let x=h.x0;x<h.x0+h.w;x++)forestTile(B,x,z,2);},(x,z)=>forestTile(B,x,z,2));
+  for(let z=-4;z<W+4;z++)for(let x=-4;x<W+4;x++){if(x>=0&&z>=0&&x<W&&z<W)continue;if(Math.random()<.55)forestTile(B,x,z,1,false);}
+  const pg=new THREE.Mesh(new THREE.PlaneGeometry(11*T,2*T),NK2.gravel);pg.rotation.x=-Math.PI/2;pg.position.set(12*T,0.01,2.5*T);world.add(pg);
+  for(const sp of specials)if(sp.type==='hall')buildHall(sp);
+  // 千本鳥居: straight path tiles get two torii each
+  const o=(x,z)=>x>=0&&z>=0&&x<W&&z<W&&grid[z][x]!==1;let gap=0;
+  for(let z=4;z<=22;z++)for(let x=1;x<W-1;x++){if(grid[z][x]!==0)continue;
+    const hz=o(x-1,z)&&o(x+1,z)&&!o(x,z-1)&&!o(x,z+1),vt=o(x,z-1)&&o(x,z+1)&&!o(x-1,z)&&!o(x+1,z);if(!hz&&!vt)continue;
+    if(gap>0){gap--;continue;}if(Math.random()<.05){gap=1+rnd(2);continue;}
+    for(const d of [-1,0,1]){if(hz)toriiInst(B,x*T+d,z*T,Math.PI/2);else toriiInst(B,x*T,z*T+d,0);}}
+  for(const t of lowTiles){if(t.tag==='kitsune'){const k=makeKitsune();k.scale.setScalar(1.15);k.position.set(t.x*T,0,t.z*T);k.rotation.y=Math.atan2(SX*T-t.x*T,SZ*T-t.z*T)+Math.PI;world.add(k);setLow(t,0.55,0.55,9);}
+    if(t.tag==='otsuka'){const k=makeOtsuka();k.position.set(t.x*T,0,t.z*T);world.add(k);setLow(t,0.9,0.9,9);}}
+  flushBatch(B);
+  const sg=plane(1.8,0.6,new THREE.MeshPhongMaterial({map:signTex('千本鳥居','#c8361a','#f0e8d8',40)}),12*T,2.6,3.5*T+1.45,Math.PI);world.add(sg);
+  buildExitTorii();
+  const {openT,used,key}=placeItems();streetLamps(openT,used,key,10,4);
+  const L=new THREE.PointLight(0xff6030,0.9,14,2);L.position.set(12*T,3,2.5*T);world.add(L);addLight(L,KM.paperLit.clone(),0xffd6a0,0x3a3020,0.9);
+}
+
+// ---------- 嵐山・竹林の小径 ----------
+function genArashi(){
+  W=25;SX=4;SZ=1;EX=12;EZ=W-1;
+  for(let attempt=0;attempt<60;attempt++){blank();
+    carve(1,1,23,1);                                   // 天龍寺 北門前の道
+    for(let x=19;x<=21;x++)for(let z=4;z<=5;z++){grid[z][x]=1;kp(x,z);}specials.push({type:'nonomiya',x0:19,z0:4,w:3,h:2});
+    const CX=[2,6,10,14,18,22],CZ=[3,7,11,15];
+    for(const [i,j,a,b] of mazeEdges(6,4,3))carve(CX[i],CZ[j],CX[a],CZ[b]);   // 竹林の迷路
+    carve(2,1,2,3);carve(22,1,22,3);carve(20,6,20,7);carve(18,7,22,7);
+    carve(4,2,5,8);carve(4,8,16,9);carve(15,9,16,14);carve(6,14,16,15);carve(6,15,7,17);   // 竹林の小径（2マス幅）
+    carve(2,15,2,17);carve(22,15,22,17);
+    carve(1,17,23,17);                                 // 川沿いの道
+    carve(1,18,23,19);                                 // 桂川
+    carve(1,20,23,21);carve(12,22,12,23);              // 対岸
+    if(!finishGen())continue;
+    const stepX=3+rnd(5);
+    for(let z=18;z<=19;z++)for(let x=1;x<=23;x++){if(x===11||x===12)continue;if(x===stepX){specials.push({type:'tobiishi',x,z});continue;}lowSet(x,z,'river');}
+    lowSet(5,3,'tourou');lowSet(16,11,'tourou');lowSet(7,9,'tourou');
+    if(!allConnected())continue;
+    fillHousesAll({});
+    return;}
+}
+function buildArashi(){const B=newBatch();
+  buildTownCommon(NK.dirt,h=>{},(x,z)=>{});
+  for(let z=-3;z<W+3;z++)for(let x=-3;x<W+3;x++){const inb=x>=0&&z>=0&&x<W&&z<W;if(inb&&grid[z][x]!==1)continue;if(x===EX&&z===EZ)continue;if(inb&&keepSet.has(x+','+z))continue;
+    if(z>=20){forestTile(B,x,z,inb?2:1,inb);continue;}bambooTile(B,x,z,inb?7:4);}
+  // 柴垣 along every bamboo edge that faces a path
+  for(let z=1;z<=17;z++)for(let x=0;x<W;x++){if(grid[z][x]!==1||keepSet.has(x+','+z))continue;
+    for(const [dx,dz] of [[1,0],[-1,0],[0,1],[0,-1]]){const nx=x+dx,nz=z+dz;if(nx<0||nz<0||nx>=W||nz>=W||grid[nz][nx]!==0)continue;
+      const px=x*T+dx*(T/2-0.15),pz=z*T+dz*(T/2-0.15),ry=dx?Math.PI/2:0;B.fence.push(mtx(px,0.6,pz,ry,T,1.2,0.25));B.rail.push(mtx(px,1.22,pz,ry,T,0.08,0.32));}}
+  // 桂川 + 渡月橋
+  const rv=new THREE.Mesh(new THREE.PlaneGeometry(24*T,2*T,20,4),NK.river);rv.rotation.x=-Math.PI/2;rv.position.set(12*T,0.05,18.5*T);world.add(rv);
+  for(const z of [17.5,19.5])for(const [a,b] of [[0.5,10.5],[12.5,23.5]])world.add(box((b-a)*T,0.4,0.35,KM.stoneM,(a+b)/2*T,0.2,z*T));
+  world.add(box(2*T,0.3,2*T+1.2,KM.wood,11.5*T,0.15,18.5*T));
+  [-1,1].forEach(s=>{const x=11.5*T+s*(T-0.15);world.add(box(0.12,0.12,2*T+1.2,KM.darkWood,x,1.05,18.5*T));
+    for(let i=0;i<=6;i++){const z=17.5*T-0.6+i*(2*T+1.2)/6;world.add(box(0.16,1.0,0.16,KM.darkWood,x,0.6,z));}});
+  for(const z of [18,19])for(const x of [10.7,11.5,12.3]){const p=new THREE.Mesh(new THREE.CylinderGeometry(0.18,0.18,1.6,8),KM.darkWood);p.position.set(x*T,-0.5,z*T);world.add(p);}
+  const sg=plane(1.6,0.6,new THREE.MeshPhongMaterial({map:signTex('渡月橋','#2a1a0c','#d8b878',40)}),10.5*T-0.2,1.6,17.5*T-0.6,0);world.add(sg);
+  for(const sp of specials){
+    if(sp.type==='tobiishi'){for(let k=0;k<2;k++){const s=new THREE.Mesh(new THREE.CylinderGeometry(0.7,0.8,0.35,8),KM.stoneM);s.position.set(sp.x*T,0.15,sp.z*T+(k-0.5)*1.4);world.add(s);}}
+    if(sp.type==='nonomiya'){const cx=(sp.x0+(sp.w-1)/2)*T,cz=(sp.z0+(sp.h-1)/2)*T;const g=new THREE.Group();g.position.set(cx,0,cz);world.add(g);
+      g.add(box(6.4,0.5,4.4,KM.stoneM,0,0.25,0));g.add(box(5.2,2.8,3.4,NK2.kuroki,0,1.9,0));g.add(box(5.6,0.2,3.8,KM.darkWood,0,3.4,0));
+      [-1,1].forEach(s=>{const r=box(6.8,0.2,2.6,KM.kawara,0,3.9,s*1.0);r.rotation.x=s*0.5;g.add(r);});g.add(box(7,0.25,0.25,KM.black,0,4.5,0));
+      const rope=new THREE.Mesh(new THREE.TorusGeometry(1.4,0.08,6,20,Math.PI),new THREE.MeshPhongMaterial({color:0xc8b070}));rope.rotation.z=Math.PI;rope.position.set(0,3.0,1.75);rope.scale.y=0.25;g.add(rope);
+      const t=makeTorii(3.0,3.4,NK2.kuroki);t.position.set(20*T,0,6*T);world.add(t);
+      const s2=plane(1.8,0.6,new THREE.MeshPhongMaterial({map:signTex('野宮神社','#1a1410','#d8d0b8',40)}),20*T+1.6,1.6,6*T-1.45,0);world.add(s2);}}
+  for(const t of lowTiles){if(t.tag==='river')setLow(t,T/2,T/2,-1);
+    if(t.tag==='tourou'){const l=makeTourou(true);l.scale.setScalar(1.3);l.position.set(t.x*T,0,t.z*T);world.add(l);setLow(t,0.55,0.55,9);}}
+  flushBatch(B);
+  const s3=plane(1.8,0.6,new THREE.MeshPhongMaterial({map:signTex('竹林の小径','#d8d0b8','#1a1a1a',34)}),4.5*T,2.0,1*T-1.4,0);world.add(s3);
+  const s4=plane(1.8,0.6,new THREE.MeshPhongMaterial({map:signTex('天龍寺 北門','#2a1a0c','#d8b878',34)}),12*T,2.4,1*T-1.4,0);world.add(s4);
+  buildExitTorii();
+  const {openT,used,key}=placeItems();streetLamps(openT,used,key,12,3);
+}
+
+function buildSanju(x,z){const g=new THREE.Group();g.position.set(x,0,z);world.add(g);g.add(box(3.0,0.6,3.0,KM.stoneM,0,0.3,0));
+  for(let i=0;i<3;i++){const w=2.5-i*0.25,y=0.6+i*3.4;g.add(box(w,2.6,w,NK2.verm,0,y+1.3,0));g.add(box(w*0.55,1.6,w+0.02,KM.darkWood,0,y+1.2,0));g.add(box(w+0.6,0.12,w+0.6,KM.darkWood,0,y+0.15,0));
+    g.add(box(w+2.6,0.24,w+2.6,KM.kawara,0,y+2.7,0));g.add(box(w+1.8,0.3,w+1.8,KM.kawara,0,y+2.92,0));}
+  g.add(beam(0,10.8,0,0,15.5,0,0.08,KM.bronze));for(let k=0;k<7;k++)g.add(new THREE.Mesh(new THREE.TorusGeometry(0.22,0.04,6,12),KM.bronze).translateY(11.5+k*0.5).rotateX(Math.PI/2));}
+// ---------- 清水寺・産寧坂 ----------
+// world layout: 境内(西) / 本堂+清水の舞台(東の谷の上) / 錦雲渓の谷(北東・深さ14m) / 門前町の坂(南)
+const KIYO={pitX:14.5,pitZ:12.5,depth:14};
+function genKiyo(){
+  W=25;SX=4;SZ=5;EX=19;EZ=W-1;
+  for(let attempt=0;attempt<60;attempt++){blank();
+    // 谷（錦雲渓）: 歩けない・家も建てない
+    for(let z=1;z<=12;z++)for(let x=15;x<=23;x++)kp(x,z);
+    // 境内
+    carve(2,1,8,3);carve(2,4,14,8);
+    for(let x=9;x<=14;x++)for(let z=1;z<=3;z++){grid[z][x]=1;kp(x,z);}specials.push({type:'hondo',x0:9,z0:1,w:6,h:3});
+    carve(15,2,18,5);                                  // 清水の舞台（谷の上に張り出した板の間）
+    for(let x=2;x<=3;x++){grid[1][x]=1;kp(x,1);}specials.push({type:'jishu',x0:2,z0:1,w:2,h:1});
+    grid[5][7]=1;kp(7,5);specials.push({type:'sanju',x:7,z:5});
+    grid[6][11]=1;kp(11,6);specials.push({type:'kyodo',x:11,z:6});
+    grid[8][8]=1;kp(8,8);specials.push({type:'bell',x:8,z:8});
+    kp(1,6);specials.push({type:'saimon',x:1,z:6});
+    // 境内を囲む築地塀（南の列と西の列）
+    for(let x=1;x<=14;x++){if(x>=3&&x<=6)continue;kp(x,9);specials.push({type:'wall',x,z:9});}
+    for(let z=1;z<=8;z++){if(z===6)continue;kp(1,z);specials.push({type:'wall',x:1,z});}
+    specials.push({type:'niomon',x:4.5,z:9});
+    // 門前町
+    carve(4,9,5,14);                                   // 仁王門前の石段〜清水坂
+    carve(1,14,5,15);carve(2,15,2,22);                 // 清水坂 → 五条坂・茶わん坂
+    carve(6,14,9,15);carve(8,15,9,19);                 // 産寧坂（石段）
+    carve(9,19,13,20);carve(12,20,19,21);carve(19,21,19,23);   // 二年坂
+    carve(14,13,22,13);carve(22,13,22,21);carve(19,21,22,21);  // 谷沿いの道
+    carve(14,13,14,17);carve(10,17,22,17);
+    carve(2,22,9,22);carve(9,20,9,22);
+    // 細い路地（行き止まりも少し）
+    for(let k=0;k<12;k++){const z=10+rnd(13),x=1+rnd(W-2);if(grid[z][x]!==0)continue;const d=shuffle([[1,0],[-1,0],[0,1],[0,-1]])[0];const L=2+rnd(3);const cells=[];let ok=true;
+      for(let i=1;i<=L;i++){const xx=x+d[0]*i,zz=z+d[1]*i;if(xx<1||zz<10||xx>W-2||zz>W-2||keepSet.has(xx+','+zz)){ok=false;break;}cells.push([xx,zz]);if(grid[zz][xx]===0)break;}
+      if(ok)for(const [xx,zz] of cells)grid[zz][xx]=0;}
+    if(!finishGen())continue;
+    for(const [x,z] of [[3,3],[6,1],[13,8],[3,8],[10,4]])lowSet(x,z,'maple');
+    for(const [x,z] of [[9,7],[12,7]])lowSet(x,z,'tourou');
+    if(!allConnected())continue;
+    fillHousesAll({Hmin:5.4,Hvar:1.8,tag:h=>{h.shop=Math.random()<.7;h.tea=Math.random()<.3;}});
+    return;}
+}
+function hipRoof(w,d,h,inset,mat){const x0=-w/2,x1=w/2,z0=-d/2,z1=d/2,rx=Math.max(0.01,w/2-inset);
+  const g=new THREE.BufferGeometry();g.setAttribute('position',new THREE.Float32BufferAttribute([x0,0,z0,x1,0,z0,x1,0,z1,x0,0,z1,-rx,h,0,rx,h,0],3));
+  g.setIndex([0,4,5,0,5,1,2,5,4,2,4,3,3,4,0,1,5,2]);g.computeVertexNormals();return new THREE.Mesh(g,mat);}
+const KY={hinoki:new THREE.MeshPhongMaterial({color:0x4a2c1a,shininess:3,side:THREE.DoubleSide}),keyaki:new THREE.MeshPhongMaterial({map:woodTex,color:0x9a7a5a,shininess:6}),
+  rock:new THREE.MeshPhongMaterial({map:KT.dirt,color:0x4a4038,shininess:2}),pit:new THREE.MeshPhongMaterial({map:KT.dirt,color:0x2a2620,shininess:2}),
+  fall:new THREE.MeshBasicMaterial({color:0x9ab8d8,transparent:true,opacity:0.55,side:THREE.DoubleSide}),hi:new THREE.MeshPhongMaterial({color:0xa01818,shininess:4}),
+  kasa:new THREE.MeshPhongMaterial({color:0xb81c14,shininess:10,side:THREE.DoubleSide,emissive:0x200404})};
+function tsuijiWall(x,z){world.add(box(T+0.02,2.6,T*0.7,KM.plaster,x*T,1.3,z*T));world.add(box(T+0.3,0.25,T*0.7+0.9,KM.kawara,x*T,2.75,z*T));world.add(box(T+0.02,0.35,T*0.7+0.02,KM.darkWood,x*T,0.17,z*T));
+  for(const y of [1.6,2.0])world.add(box(T+0.04,0.06,T*0.7+0.04,KM.white,x*T,y,z*T));}
+function buildHondo(sp){const cx=(sp.x0+(sp.w-1)/2)*T,cz=(sp.z0+(sp.h-1)/2)*T,sx=sp.w*T,sz=sp.h*T;const g=new THREE.Group();g.position.set(cx,0,cz);world.add(g);
+  g.add(box(sx,0.6,sz,NK.ishi,0,0.3,0));g.add(box(sx-1.4,5.0,sz-1.4,KM.latticeLit,0,3.1,0));
+  for(let i=0;i<=8;i++){const x=-sx/2+0.6+i*(sx-1.2)/8;for(const z of [-sz/2+0.6,sz/2-0.6])g.add(new THREE.Mesh(new THREE.CylinderGeometry(0.22,0.24,5.2,10),KY.keyaki).translateX(x).translateY(3.2).translateZ(z));}
+  for(let j=0;j<=4;j++){const z=-sz/2+0.6+j*(sz-1.2)/4;g.add(new THREE.Mesh(new THREE.CylinderGeometry(0.22,0.24,5.2,10),KY.keyaki).translateX(sx/2-0.6).translateY(3.2).translateZ(z));}
+  g.add(box(sx+0.4,0.5,sz+0.4,KM.darkWood,0,6.0,0));
+  const r=hipRoof(sx+6,sz+6,6.5,sx*0.32,KY.hinoki);r.position.y=6.2;g.add(r);g.add(box(sx*0.36+0.4,0.6,0.7,KM.black,0,12.7,0));
+  [-1,1].forEach(s=>g.add(box(0.6,1.4,0.5,KM.black,s*(sx*0.18+0.2),13.0,0)));
+  const sg=plane(2.6,0.9,new THREE.MeshPhongMaterial({map:signTex('清水寺','#2a1a0c','#d8b878',44)}),sx/2+0.02,4.6,0,Math.PI/2);g.add(sg);
+  // 正面（舞台側）の大提灯と賽銭箱
+  const c=makeChochin(0xf0e0c0);c.scale.setScalar(3.2);c.position.set(sx/2+0.9,3.4,0);g.add(c);
+  g.add(box(1.0,0.9,2.2,KM.wood,sx/2+1.6,0.45,0));addObs(cx+sx/2+1.6,cz,0.5,1.1);
+  const bm=new THREE.Mesh(new THREE.CylinderGeometry(0.4,7,140,18,1,true),new THREE.MeshBasicMaterial({color:0x5070ff,transparent:true,opacity:0.07,blending:THREE.AdditiveBlending,depthWrite:false,fog:false,side:THREE.DoubleSide}));
+  bm.geometry.translate(0,70,0);bm.position.set(-sx/4,12,0);bm.rotation.z=-0.42;bm.rotation.x=0.25;g.add(bm);
+  const L=new THREE.PointLight(0xffb070,1.0,16,2);L.position.set(cx+sx/2+2,3.4,cz);world.add(L);addLight(L,KM.paperLit.clone(),0xffd6a0,0x3a3020,1.0);}
+function buildStage(){const X0=KIYO.pitX*T,X1=18.5*T,Z0=1.5*T,Z1=5.5*T,D=KIYO.depth,cx=(X0+X1)/2,cz=(Z0+Z1)/2;
+  world.add(box(X1-X0+0.4,0.36,Z1-Z0+0.2,NK.deck,cx,-0.18,cz));
+  for(let i=0;i<5;i++)for(let j=0;j<5;j++){const x=X0+0.4+i*(X1-X0-0.8)/4,z=Z0+0.4+j*(Z1-Z0-0.8)/4;const p=new THREE.Mesh(new THREE.CylinderGeometry(0.3,0.32,D,8),KY.keyaki);p.position.set(x,-D/2-0.3,z);world.add(p);}
+  for(let k=1;k<=4;k++){const y=-k*3.0;for(let j=0;j<5;j++)world.add(box(X1-X0,0.28,0.2,KY.keyaki,cx,y,Z0+0.4+j*(Z1-Z0-0.8)/4));for(let i=0;i<5;i++)world.add(box(0.2,0.28,Z1-Z0,KY.keyaki,X0+0.4+i*(X1-X0-0.8)/4,y,cz));}
+  // 手すり
+  for(const [w,d,x,z] of [[0.14,Z1-Z0,X1-0.1,cz],[X1-X0,0.14,cx,Z1-0.1],[X1-X0,0.14,cx,Z0+0.1]]){world.add(box(w,0.14,d,KM.darkWood,x,1.0,z));world.add(box(w,0.08,d,KM.darkWood,x,0.55,z));}
+  for(let i=0;i<=8;i++){world.add(box(0.14,1.0,0.14,KM.darkWood,X0+i*(X1-X0)/8,0.5,Z1-0.1));world.add(box(0.14,1.0,0.14,KM.darkWood,X0+i*(X1-X0)/8,0.5,Z0+0.1));world.add(box(0.14,1.0,0.14,KM.darkWood,X1-0.1,0.5,Z0+i*(Z1-Z0)/8));}
+  // 翼廊（舞台の左右の屋根）
+  for(const [za,zb] of [[Z0+0.3,Z0+2.7],[Z1-2.7,Z1-0.3]]){for(const x of [X0+0.5,cx,X1-0.5])for(const z of [za,zb]){world.add(new THREE.Mesh(new THREE.CylinderGeometry(0.16,0.16,3.8,8),KY.keyaki).translateX(x).translateY(1.9).translateZ(z));addObs(x,z,0.18,0.18);}
+    const r=hipRoof(X1-X0+1.6,zb-za+2.4,1.6,1.2,KY.hinoki);r.position.set(cx,3.8,(za+zb)/2);world.add(r);}
+  for(const [x,z] of [[X0+3,Z1-0.1],[cx+2,Z1-0.1],[X1-0.1,Z0+3],[X1-0.1,Z1-3]]){const c=makeChochin(0xff5a30);c.position.set(x,1.6,z);world.add(c);}
+  const L=new THREE.PointLight(0xffa060,0.8,14,2);L.position.set(X1-2,2.6,cz);world.add(L);const c=makeChochin(0xf0e0c0);c.scale.setScalar(1.6);c.position.set(X1-0.3,2.4,cz);world.add(c);addLight(L,KM.chochin.clone(),0xf0e0c0,0x332010,0.8);}
+function buildRavine(){const D=KIYO.depth,X0=KIYO.pitX*T,Z1=KIYO.pitZ*T,C=(W-1)*T/2;
+  const pf=new THREE.Mesh(new THREE.PlaneGeometry(220,220),KY.pit);pf.rotation.x=-Math.PI/2;pf.position.set(X0+110,-D,Z1-110);world.add(pf);
+  world.add(box(0.6,D,Z1+120,KY.rock,X0-0.3,-D/2,Z1-(Z1+120)/2));world.add(box(160,D,0.6,KY.rock,X0+80,-D/2,Z1+0.3));
+  // 谷の紅葉
+  for(let i=0;i<26;i++){const x=X0+3+Math.random()*48,z=-8+Math.random()*(Z1+4);if(x<18.5*T+2&&z<5.5*T+2&&z>1.5*T-2)continue;const m=makeMaple(Math.random()<.8);m.scale.setScalar(2.0+Math.random()*0.8);m.position.set(x,-D,z);world.add(m);}
+  for(const [x,z] of [[X0+10,8],[X0+20,26]]){const pl=new THREE.PointLight(0xff7a30,1.3,32,1.6);pl.position.set(x,-D+4,z);world.add(pl);}
+  // 音羽の滝
+  const ox=17.3*T,oz=Z1-0.4,g=new THREE.Group();g.position.set(ox,-D,oz);world.add(g);
+  for(const x of [-3,3])for(const z of [0,-3.2])g.add(box(0.2,4.6,0.2,KM.darkWood,x,2.3,z));const r=hipRoof(7.4,4.6,1.4,1.4,KY.hinoki);r.position.set(0,4.6,-1.6);g.add(r);
+  for(const x of [-1.4,0,1.4]){g.add(plane(0.14,4.0,KY.fall,x,2.2,-0.05,0));g.add(plane(0.14,4.0,KY.fall,x,2.2,-0.05,Math.PI/2));}
+  g.add(box(5.6,0.5,1.6,KM.stoneM,0,0.25,-1.0));
+  const L=new THREE.PointLight(0x9ab8ff,0.9,14,2);L.position.set(ox,-D+3,oz-3);world.add(L);addLight(L,KM.paperLit.clone(),0xffd6a0,0x3a3020,0.9);
+  const s=plane(1.8,0.6,new THREE.MeshPhongMaterial({map:signTex('音羽の滝','#2a1a0c','#d8b878',40)}),ox,-D+5.6,oz-0.4,Math.PI);world.add(s);
+  // 谷沿いの柵
+  for(let x=14.5;x<23.5;x+=1){world.add(box(T,0.1,0.1,KM.darkWood,(x+0.5)*T,1.0,Z1+0.25));world.add(box(0.12,1.05,0.12,KM.darkWood,x*T,0.52,Z1+0.25));}
+  // 遠くの京都の町明かり
+  for(let i=0;i<40;i++){const sp=new THREE.Mesh(new THREE.SphereGeometry(0.25,5,4),new THREE.MeshBasicMaterial({color:Math.random()<.5?0xffb070:0xffe0b0,fog:false}));sp.position.set(X0+90+Math.random()*90,-D-6+Math.random()*3,-60+Math.random()*120);world.add(sp);}}
+function buildJishu(sp){const cx=(sp.x0+0.5)*T,cz=sp.z0*T;const g=new THREE.Group();g.position.set(cx,0,cz);world.add(g);
+  g.add(box(5.6,0.4,2.6,KM.stoneM,0,0.2,0));g.add(box(4.6,2.6,2.0,KM.white,0,1.7,-0.1));for(const x of [-2.4,-0.8,0.8,2.4])g.add(new THREE.Mesh(new THREE.CylinderGeometry(0.13,0.13,2.8,8),NK2.verm).translateX(x).translateY(1.8).translateZ(1.0));
+  const r=hipRoof(6.6,3.8,1.3,1.6,KM.kawara);r.position.y=3.1;g.add(r);
+  const t=makeTorii(2.6,3.0,NK2.verm);t.position.set(cx,0,2*T+0.4);world.add(t);
+  const s=plane(1.6,0.55,new THREE.MeshPhongMaterial({map:signTex('地主神社','#c8361a','#f0e8d8',38)}),0,2.3,1.2,0);g.add(s);}
+function buildKyodo(x,z){const g=new THREE.Group();g.position.set(x*T,0,z*T);world.add(g);g.add(box(3.0,0.5,3.0,KM.stoneM,0,0.25,0));g.add(box(2.4,2.6,2.4,NK2.verm,0,1.8,0));g.add(box(1.6,1.6,2.44,KM.white,0,1.8,0));
+  const r=hipRoof(4.4,4.4,1.8,2.1,KM.kawara);r.position.y=3.1;g.add(r);}
+function buildSaimon(x,z){const g=new THREE.Group();g.position.set(x*T,0,z*T);g.rotation.y=Math.PI/2;world.add(g);
+  for(const s of [-1,1])for(const d of [-0.8,0.8])g.add(new THREE.Mesh(new THREE.CylinderGeometry(0.18,0.18,3.6,10),NK2.verm).translateX(s*1.3).translateY(1.8).translateZ(d));
+  g.add(box(3.4,0.4,2.0,NK2.verm,0,3.7,0));g.add(box(2.4,1.2,1.4,NK2.verm,0,4.5,0));g.add(box(1.8,0.8,1.44,KM.white,0,4.5,0));
+  const r=hipRoof(5.0,3.4,1.4,1.8,KM.kawara);r.position.y=5.1;g.add(r);const r0=hipRoof(4.6,3.0,0.7,0.2,KM.kawara);r0.position.y=3.85;g.add(r0);}
+function buildNiomon2(x,z){const g=new THREE.Group();g.position.set(x*T,0,z*T);world.add(g);
+  g.add(box(10.6,0.4,3.2,NK.ishi,0,0.2,0));
+  [-1,1].forEach(s=>{[-1.1,1.1].forEach(d=>g.add(new THREE.Mesh(new THREE.CylinderGeometry(0.26,0.26,4.8,12),NK2.verm).translateX(s*3.2).translateY(2.4).translateZ(d)));
+    g.add(box(2.0,4.2,2.4,NK2.verm,s*4.4,2.1,0));g.add(box(1.4,3.0,0.1,new THREE.MeshPhongMaterial({color:0x1a1210}),s*4.4,2.2,1.22));});
+  g.add(box(10.4,0.5,3.0,NK2.verm,0,5.0,0));const r1=hipRoof(12.4,5.4,0.9,0.3,KM.kawara);r1.position.y=5.2;g.add(r1);
+  g.add(box(7.6,2.4,2.4,NK2.verm,0,6.9,0));g.add(box(5.4,1.4,2.44,KM.white,0,6.9,0));
+  const r2=hipRoof(11.6,5.4,2.6,3.2,KM.kawara);r2.position.y=8.1;g.add(r2);g.add(box(5.4,0.4,0.4,KM.black,0,10.75,0));
+  const c=makeChochin(0xf0e0c0);c.scale.setScalar(2.4);c.position.set(0,3.4,1.4);g.add(c);
+  const sg=plane(1.4,0.5,new THREE.MeshPhongMaterial({map:signTex('仁王門','#2a1a0c','#d8b878',40)}),0,4.5,1.52,0);g.add(sg);
+  for(const s of [-1,1]){buildKomainu(x*T+s*2.6,z*T+T*1.0,0);addObs(x*T+s*2.6,z*T+T*1.0,0.5,0.5);}
+  const L=new THREE.PointLight(0xff8040,1.0,14,2);L.position.set(x*T,3.2,z*T+2);world.add(L);addLight(L,KM.paperLit.clone(),0xffd6a0,0x3a3020,1.0);}
+const SHOP_TX=['清水焼','甘味処','湯豆腐','京漬物','扇子','七味','八ツ橋','茶房','京人形','団子'];
+function buildShopFront(h){const sides=openSides(h);if(!sides.length)return;const [dx,dz]=sides[0];
+  const cx=(h.x0+(h.w-1)/2)*T,cz=(h.z0+(h.h-1)/2)*T,sx=h.w*T-0.08,sz=h.h*T-0.08;const px=cx+dx*(sx/2+0.06),pz=cz+dz*(sz/2+0.06),ry=Math.atan2(dx,dz);
+  const tx=dx?-dz:1,tz=dx?dx:0;const along=dx?sz:sx;
+  if(h.tea){let wide=false;const cells=[];if(dx)for(let z=h.z0;z<h.z0+h.h;z++)cells.push([dx>0?h.x0+h.w:h.x0-1,z]);else for(let x=h.x0;x<h.x0+h.w;x++)cells.push([x,dz>0?h.z0+h.h:h.z0-1]);
+    wide=true;for(const [x,z] of cells){const fx=x+dx,fz=z+dz;const o=grid[z]&&grid[z][x]===0;if(o&&!(grid[fz]&&grid[fz][fx]===0))wide=false;}if(!wide)h.tea=false;}
+  // 明かりのついた店先
+  world.add(plane(along-0.6,2.2,KM.latticeLit,px+dx*0.02,1.3,pz+dz*0.02,ry));
+  const col=['#5a1010','#1a2a5a','#2a3a1a','#3a2010','#4a3a10'][rnd(5)];
+  world.add(plane(Math.min(2.4,along-0.8),0.9,new THREE.MeshPhongMaterial({map:norenTex(SHOP_TX[rnd(SHOP_TX.length)],col),side:THREE.DoubleSide}),px+dx*0.08,2.45,pz+dz*0.08,ry));
+  // 庇
+  const ea=box(dx?1.2:along,0.12,dx?along:1.2,KM.kawara,px+dx*0.55,3.1,pz+dz*0.55);world.add(ea);
+  // 縦看板
+  const vb=box(0.5,1.5,0.1,KM.darkWood,px+dx*0.35+tx*(along/2-0.5),1.0,pz+dz*0.35+tz*(along/2-0.5));vb.rotation.y=ry;world.add(vb);
+  if(h.tea){const bx=px+dx*0.9,bz=pz+dz*0.9;const b=box(dx?0.7:1.8,0.45,dx?1.8:0.7,KM.wood,bx,0.22,bz);world.add(b);world.add(box(dx?0.74:1.84,0.04,dx?1.84:0.74,KY.hi,bx,0.47,bz));addObs(bx,bz,dx?0.35:0.9,dx?0.9:0.35);
+    const ux=bx+tx*1.2,uz=bz+tz*1.2;world.add(beam(ux,0,uz,ux,2.4,uz,0.03,KM.darkWood));const k=new THREE.Mesh(new THREE.ConeGeometry(1.3,0.5,16,1,true),KY.kasa);k.position.set(ux,2.45,uz);world.add(k);}
+  else{const shx=px+dx*0.35,shz=pz+dz*0.35;const sh=box(dx?0.5:1.8,0.8,dx?1.8:0.5,KM.wood,shx,0.4,shz);world.add(sh);
+    for(let i=0;i<5;i++){const c=[0x2a4a7a,0xd8d0c0,0x6a2a1a,0x3a5a3a,0xc8a050][rnd(5)];const o=(i-2)*0.32;world.add(new THREE.Mesh(new THREE.CylinderGeometry(0.1,0.08,0.18,8),new THREE.MeshPhongMaterial({color:c,shininess:60})).translateX(shx+tx*o).translateY(0.9).translateZ(shz+tz*o));}}
+  if(Math.random()<.7){const c=makeChochin(Math.random()<.5?0xff5a30:0xf0e0c0);c.position.set(px+dx*0.5+tx*(-along/2+0.6),2.7,pz+dz*0.5+tz*(-along/2+0.6));world.add(c);}}
+function buildKiyo(){const PX=KIYO.pitX*T,PZ=KIYO.pitZ*T;
+  buildTownCommon(null,h=>{buildMachiya(h);if(h.shop)buildShopFront(h);},(x,z)=>{if(x>=15&&z<=12)return true;return false;});
+  // 地面（谷の部分だけ穴をあける）
+  const gA=new THREE.Mesh(new THREE.PlaneGeometry(PX+120,320),NK.stoneGround);gA.rotation.x=-Math.PI/2;gA.position.set((PX-120)/2,0,40);world.add(gA);
+  const gB=new THREE.Mesh(new THREE.PlaneGeometry(200,200),NK.stoneGround);gB.rotation.x=-Math.PI/2;gB.position.set(PX+100,0,PZ+100);world.add(gB);
+  const pg=new THREE.Mesh(new THREE.PlaneGeometry(13*T,8*T),NK2.gravel);pg.rotation.x=-Math.PI/2;pg.position.set(8*T,0.01,4.5*T);world.add(pg);
+  buildRavine();buildStage();
+  for(const sp of specials){if(sp.type==='hondo')buildHondo(sp);if(sp.type==='jishu')buildJishu(sp);if(sp.type==='sanju'){buildSanju(sp.x*T,sp.z*T);const pl=new THREE.PointLight(0xff8a40,1.3,20,1.6);pl.position.set(sp.x*T+2.5,1.0,sp.z*T+2.5);world.add(pl);}if(sp.type==='bell')buildBell(sp.x*T,sp.z*T);
+    if(sp.type==='kyodo')buildKyodo(sp.x,sp.z);if(sp.type==='saimon')buildSaimon(sp.x,sp.z);if(sp.type==='niomon')buildNiomon2(sp.x,sp.z);if(sp.type==='wall')tsuijiWall(sp.x,sp.z);}
+  // 石段
+  const B=newBatch();
+  for(let z=10;z<=13;z++)for(const k of [-1,-0.33,0.33,1])B.step.push(mtx(4.5*T,0.04,z*T+k,0,2*T-0.2,0.08,0.22));
+  for(let z=15;z<=19;z++)for(const k of [-0.75,0,0.75])B.step.push(mtx(8.5*T,0.04,z*T+k,0,2*T-0.2,0.08,0.24));
+  for(let x=10;x<=19;x++)B.step.push(mtx(x*T,0.03,20.5*T,0,0.22,0.06,2*T-0.2));
+  flushBatch(B);
+  for(const t of lowTiles){if(t.tag==='tourou'){const l=makeTourou(true);l.scale.setScalar(1.3);l.position.set(t.x*T,0,t.z*T);world.add(l);setLow(t,0.55,0.55,9);}
+    if(t.tag==='maple'){const m=makeMaple(true);m.position.set(t.x*T,0,t.z*T);world.add(m);setLow(t,0.35,0.35,9);}}
+  const sg=(t,x,y,z,ry)=>world.add(plane(1.8,0.6,new THREE.MeshPhongMaterial({map:signTex(t,'#d8d0b8','#1a1a1a',36)}),x,y,z,ry));
+  sg('清水坂',3.5*T-1.45,1.8,12*T,Math.PI/2);sg('産寧坂',9.5*T+1.45,1.8,16.5*T,-Math.PI/2);sg('二年坂',15*T,1.8,21.5*T+1.45,Math.PI);sg('茶わん坂',2*T+1.45,1.8,18*T,-Math.PI/2);
+  sg('清水の舞台',16.5*T,1.6,5.5*T-0.25,Math.PI);
+  buildExitTorii();
+  const {openT,used,key}=placeItems();streetLamps(openT,used,key,14,3);
+}
+
 const MAPS={
   gion:{name:'祇園 夜の路地',icon:'🏮',desc:'町家が並ぶ碁盤の目の路地。五重塔の寺、神社、白川のほとり。提灯の明かりが頼り。',gen:genGion,build:buildGion,
     start:'気がつくと、夜の祇園にいた。<br><small>散らばった5体の人形を集め、鳥居の結界を抜けろ。</small>',open:'鳥居の結界が解けた――<br><small>紫に光る大鳥居を目指せ</small>',winT:'鳥居をくぐると、ふつうの夜の京都に戻っていた。',hud:'大鳥居へ！'},
@@ -1041,6 +1350,12 @@ const MAPS={
     start:'四条通から一本入った花見小路。提灯だけが灯り、人の気配がない。<br><small>5体の人形を集め、通りの南の鳥居から出ろ。</small>',open:'鳥居の結界が解けた――<br><small>花見小路を南へ。紫の鳥居を目指せ</small>',winT:'鳥居を抜けると、遠くでお囃子が聞こえた気がした。',hud:'南の鳥居へ！'},
   kamo:{name:'鴨川・先斗町',icon:'🌊',desc:'人ひとりがやっと通れる先斗町の細い路地と、高瀬川、鴨川の河川敷。川は渡れない。橋と飛び石を使え。',gen:genKamo,build:buildKamo,
     start:'雨の先斗町。細い路地の奥で、提灯が揺れている。<br><small>5体の人形を集め、先斗町の南の鳥居から出ろ。</small>',open:'鳥居の結界が解けた――<br><small>先斗町の南端、紫の鳥居を目指せ</small>',winT:'鳥居をくぐると、鴨川の水音だけが残った。',hud:'先斗町の南へ！'},
+  fushimi:{name:'伏見稲荷・千本鳥居',icon:'⛩',desc:'山を埋めつくす朱の鳥居のトンネル。枝分かれする参道と、目の赤い狐の石像。鳥居の外は真っ暗な杉の森。',gen:genFushimi,build:buildFushimi,
+    start:'稲荷山の奥社で目を覚ました。どこまでも朱い鳥居が続いている。<br><small>5体の人形を集め、山を下りた先の大鳥居を抜けろ。</small>',open:'大鳥居の結界が解けた――<br><small>参道を下り、紫の鳥居を目指せ</small>',winT:'鳥居を抜けて振り返ると、狐の石像がこちらを向いていた。',hud:'山の下の鳥居へ！'},
+  arashiyama:{name:'嵐山・竹林の小径',icon:'🎋',desc:'空を覆う竹林の迷路と、柴垣の小径。黒木の鳥居の野宮神社。桂川は渡月橋か飛び石でしか渡れない。',gen:genArashi,build:buildArashi,
+    start:'霧の竹林。笹の擦れる音に、足音が混じっている。<br><small>5体の人形を集め、渡月橋を渡った先の鳥居から出ろ。</small>',open:'鳥居の結界が解けた――<br><small>桂川を渡り、紫の鳥居を目指せ</small>',winT:'渡月橋を振り返ると、竹林の奥で提灯がひとつ消えた。',hud:'川向こうの鳥居へ！'},
+  kiyomizu:{name:'清水寺・産寧坂',icon:'🏯',desc:'清水の舞台と朱の三重塔が見下ろす境内。店が並ぶ産寧坂と二年坂には、細い路地が入り組む。',gen:genKiyo,build:buildKiyo,
+    start:'清水寺の境内で目を覚ました。坂の下から、下駄の音がする。<br><small>5体の人形を集め、坂を下りきった先の鳥居から出ろ。</small>',open:'鳥居の結界が解けた――<br><small>産寧坂を下り、紫の鳥居を目指せ</small>',winT:'坂を下りきると、背後で仁王門の扉が閉まる音がした。',hud:'坂の下の鳥居へ！'},
 };
 function buildWorld(){
   scene.remove(world);world.traverse(o=>{if(o.geometry)o.geometry.dispose();});world=new THREE.Group();scene.add(world);
